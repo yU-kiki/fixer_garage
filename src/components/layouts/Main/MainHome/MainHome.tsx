@@ -1,3 +1,4 @@
+import { ProductWrapper } from "@/components/elements/ProductWrapper";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
@@ -9,12 +10,12 @@ export const MainHome = ({ className }: MainHomeProps) => {
     <div
       className={clsx(
         className,
-        "md:w-[320px]",
         "mt-[48px]",
         "mx-auto",
         "mb-[64px]"
       )}
     >
+      <ProductWrapper />
     </div>
   );
 };

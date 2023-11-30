@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Main className="pt-[80px] px-[16px] md:px-auto">
+      <Main className="pt-[80px]">
         <MainHome />
       </Main>
       <Footer />
