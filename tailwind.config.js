@@ -7,10 +7,18 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      fontFamily: {
+        'hiragino': ['Hiragino Kaku Gothic Pro', 'sans-serif'],
+      },
+      colors: {
+        "black": "#231815",
+        "white": "#ffffff",
+        "gray": "#a2a2a2",
+        "light-gray": "#efefef",
+        "blue": "#0075c2",
+      },
+      boxShadow: {
+        'box': '0px 0px 60px 20px rgba(0, 0, 0, 0.05)',
       },
     },
   },

@@ -3,17 +3,17 @@ import Image from "next/image";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
-export type LogoProps = {} & BaseProps;
+export type HeaderLogoProps = {} & BaseProps;
 
-export const Logo = ({ className }: LogoProps) => {
+export const HeaderLogo = ({ className }: HeaderLogoProps) => {
   return (
-    <Link className={clsx("font-bold", "text-2xl")} href="/">
+    <Link className={clsx("")} href="/">
       <Image
         className={clsx("")}
         src="/images/logo.svg"
         alt="ロゴ"
-        width={80}
-        height={80}
+        width={160}
+        height={32}
         priority
       />
     </Link>

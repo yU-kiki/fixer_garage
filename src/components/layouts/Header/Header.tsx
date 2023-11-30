@@ -1,5 +1,6 @@
-import { Logo } from "@/components/elements/Logo";
-import { HeaderList } from "@/features/components/HeaderList";
+import { HeaderMenu } from "@/components/elements/HeaderMenu";
+import { HeaderLogo } from "@/components/elements/HeaderLogo";
+import { HeaderShop } from "@/components/elements/HeaderShop";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
@@ -16,6 +17,7 @@ export const Header = ({ className }: HeaderProps) => {
         "fixed",
         "top-0",
         "z-[10]",
+        "h-[80px]",
         "w-[100%]",
         "px-[16px]",
         "md:px-[48px]",
@@ -23,8 +25,9 @@ export const Header = ({ className }: HeaderProps) => {
         "bg-white"
       )}
     >
-      <Logo />
-      <HeaderList />
+      <HeaderMenu />
+      <HeaderLogo />
+      <HeaderShop />
     </header>
   );
 };
