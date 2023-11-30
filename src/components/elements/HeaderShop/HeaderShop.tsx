@@ -16,7 +16,10 @@ export const HeaderShop = ({ className }: HeaderShopProps) => {
           width={32}
           height={32}
           priority
-        />
+          style={{
+            maxWidth: "100%",
+            height: "auto"
+          }} />
       </Link>
     </div>
   );

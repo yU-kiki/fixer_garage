@@ -15,7 +15,10 @@ export const HeaderMenu = ({ className }: HeaderMenuProps) => {
         width={32}
         height={32}
         priority
-      />
+        style={{
+          maxWidth: "100%",
+          height: "auto"
+        }} />
     </div>
   );
 };

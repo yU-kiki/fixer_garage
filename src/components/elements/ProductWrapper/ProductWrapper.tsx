@@ -10,15 +10,16 @@ export const ProductWrapper = ({ className }: ProductWrapperProps) => {
       className={clsx(
         "grid",
         "grid-cols-2",
-        "gap-x-[32px]",
-        "gap-y-[16px]",
-        "max-w-[1280px]",
+        "gap-x-[16px]",
+        "gap-y-[32px]",
+        "max-x-[1280px]",
         "mx-auto",
-        "px-[32px]",
+        "px-[24px]",
+        "py-[32px]",
         "md:grid-cols-3",
-        "md:gap-y-[24px]",
+        "md:gap-x-[24px]",
         "lg:grid-cols-4",
-        "lg:gap-y-[32px]",
+        "lg:gap-x-[32px]",
         className
       )}
     >

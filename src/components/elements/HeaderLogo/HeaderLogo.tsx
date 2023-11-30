@@ -15,7 +15,10 @@ export const HeaderLogo = ({ className }: HeaderLogoProps) => {
         width={160}
         height={32}
         priority
-      />
+        style={{
+          maxWidth: "100%",
+          height: "auto"
+        }} />
     </Link>
   );
 };
