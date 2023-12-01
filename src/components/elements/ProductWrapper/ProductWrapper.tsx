@@ -13,7 +13,7 @@ export const ProductWrapper = ({ className }: ProductWrapperProps) => {
 
   useEffect(() => {
     fetchProducts().then((data) => setProducts(data));
-  }, []);
+  }, [setProducts]);
 
   return (
     <div
