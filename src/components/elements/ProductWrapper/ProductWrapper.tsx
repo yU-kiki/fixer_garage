@@ -41,6 +41,7 @@ export const ProductWrapper = ({ className }: ProductWrapperProps) => {
           brandName={product.brand_name}
           price={product.price}
           discountPrice={product.discount_price}
+          stocks={product.stocks}
         />
       ))}
     </div>

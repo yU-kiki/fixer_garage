@@ -3,6 +3,34 @@ import Image from "next/image";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
+interface StockStatusProps {
+  stocks: { [size: string]: number };
+}
+const StockStatus = ({ stocks }: StockStatusProps) => {
+  const isSoldOut = Object.values(stocks).every((quantity) => quantity === 0);
+
+  return (
+    <>
+      {isSoldOut ? (
+        <p
+          className={clsx(
+            "inline-block",
+            "mb-[8px]",
+            "px-[6px]",
+            "py-[2px]",
+            "text-[10px]",
+            "md:text-[12px]",
+            "text-white",
+            "bg-red"
+          )}
+        >
+          Sold Out
+        </p>
+      ) : null}
+    </>
+  );
+};
+
 interface BrandProps {
   brandName: string;
 }
@@ -27,12 +55,33 @@ const ProductName = ({ productName }: ProductNameProps) => (
 
 interface PriceProps {
   price: number;
+  discountPrice?: number;
 }
-const Price = ({ price }: PriceProps) => (
-  <p className={clsx("mb-[4px]", "text-[10px]", "md:text-[14px]")}>
-    ￥{price.toLocaleString()}
-  </p>
-);
+const Price = ({ price, discountPrice }: PriceProps) => {
+  return (
+    <p
+      className={clsx(
+        "mb-[4px]",
+        "text-[10px]",
+        "md:text-[14px]",
+        "text-black"
+      )}
+    >
+      {discountPrice ? (
+        <>
+          <span className={clsx("line-through")}>
+            ￥{price.toLocaleString()}
+          </span>
+          <span className={clsx("ml-[4px]", "font-[600]", "text-red")}>
+            ￥{discountPrice.toLocaleString()}
+          </span>
+        </>
+      ) : (
+        <>￥{price.toLocaleString()}</>
+      )}
+    </p>
+  );
+};
 
 export type ProductItemProps = {
   className?: string;
@@ -41,6 +90,7 @@ export type ProductItemProps = {
   brandName: string;
   price: number;
   discountPrice?: number;
+  stocks: { [size: string]: number };
 } & BaseProps;
 
 export const ProductItem = ({
@@ -50,6 +100,7 @@ export const ProductItem = ({
   brandName,
   price,
   discountPrice,
+  stocks,
 }: ProductItemProps) => {
   return (
     <Link
@@ -75,9 +126,10 @@ export const ProductItem = ({
         }}
       />
       <div className={clsx("p-[12px]")}>
+        <StockStatus stocks={stocks} />
         <Brand brandName={brandName} />
         <ProductName productName={productName} />
-        <Price price={price} />
+        <Price price={price} discountPrice={discountPrice} />
       </div>
     </Link>
   );
