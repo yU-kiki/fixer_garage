@@ -34,12 +34,26 @@ const Price = ({ price }: PriceProps) => (
   </p>
 );
 
-export type ProductItemProps = {} & BaseProps;
+export type ProductItemProps = {
+  className?: string;
+  productId: string;
+  productName: string;
+  brandName: string;
+  price: number;
+  discountPrice?: number;
+} & BaseProps;
 
-export const ProductItem = ({ className }: ProductItemProps) => {
+export const ProductItem = ({
+  className,
+  productId,
+  productName,
+  brandName,
+  price,
+  discountPrice,
+}: ProductItemProps) => {
   return (
     <Link
-      href="/"
+      href={`/products/unknownjp/${productId}`}
       className={clsx(
         "rounded-[12px]",
         "bg-white",
@@ -50,7 +64,7 @@ export const ProductItem = ({ className }: ProductItemProps) => {
       )}
     >
       <Image
-        src="/images/products/unknownjp/MATT_BK_WH.png"
+        src={`/images/products/unknownjp/${productId}/1.png`}
         alt="商品画像"
         width={160}
         height={90}
@@ -61,9 +75,9 @@ export const ProductItem = ({ className }: ProductItemProps) => {
         }}
       />
       <div className={clsx("p-[12px]")}>
-        <Brand brandName="unknown" />
-        <ProductName productName="MATT_BK_WH" />
-        <Price price={126000} />
+        <Brand brandName={brandName} />
+        <ProductName productName={productName} />
+        <Price price={price} />
       </div>
     </Link>
   );

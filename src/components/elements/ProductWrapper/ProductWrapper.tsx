@@ -1,3 +1,7 @@
+import React, { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { productsState } from "@/stores/productState";
+import { fetchProducts } from "@/services/firebaseService";
 import { ProductItem } from "@/features/components/ProductItem";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
@@ -5,6 +9,12 @@ import clsx from "clsx";
 export type ProductWrapperProps = {} & BaseProps;
 
 export const ProductWrapper = ({ className }: ProductWrapperProps) => {
+  const [products, setProducts] = useRecoilState(productsState);
+
+  useEffect(() => {
+    fetchProducts().then((data) => setProducts(data));
+  }, []);
+
   return (
     <div
       className={clsx(
@@ -23,11 +33,16 @@ export const ProductWrapper = ({ className }: ProductWrapperProps) => {
         className
       )}
     >
-      <ProductItem />
-      <ProductItem />
-      <ProductItem />
-      <ProductItem />
-      <ProductItem />
+      {products.map((product, index) => (
+        <ProductItem
+          key={index}
+          productId={product.id}
+          productName={product.product_name}
+          brandName={product.brand_name}
+          price={product.price}
+          discountPrice={product.discount_price}
+        />
+      ))}
     </div>
   );
 };

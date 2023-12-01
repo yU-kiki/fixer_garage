@@ -18,7 +18,7 @@ export const Footer = ({ className }: FooterProps) => {
     {
       href: "",
       label: "特定商取引法に関する表示",
-      style: { marginTop: "16px" },
+      style: { marginTop: "16px", marginBottom: "120px" },
     },
   ];
 
