@@ -6,6 +6,7 @@ import { fetchProduct } from "@/services/firebaseService";
 import { Header } from "@/components/layouts/Header";
 import { Footer } from "@/components/layouts/Footer";
 import { Main } from "@/components/layouts/Main";
+import { ProductWrapper } from "@/components/elements/ProductWrapper";
 import { BaseProps } from "@/types/BaseProps";
 
 export type ProductProps = {} & BaseProps;
@@ -29,14 +30,16 @@ export default function Product({ className }: ProductProps) {
     <>
       <Header />
       <Main className="pt-[80px]">
-        {product && (
-          <div>
-            <p>{product.productName}</p>
-            <p>{product.brandName}</p>
-            <p>{product.description}</p>
-            <p>{product.price}</p>
-            <p>{product.discountPrice}</p>
-          </div>
+        {product?.isDisplay && (
+          <ProductWrapper
+            productId={product.id}
+            productName={product.productName}
+            brandName={product.brandName}
+            description={product.description}
+            price={product.price}
+            discountPrice={product.discountPrice}
+            stocks={product.stocks}
+          />
         )}
       </Main>
       <Footer />

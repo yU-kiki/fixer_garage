@@ -104,7 +104,7 @@ export const ProductItem = ({
 }: ProductItemProps) => {
   return (
     <Link
-      href={`/products/unknownjp/${productId}`}
+      href={`/product/unknownjp/${productId}`}
       className={clsx(
         "rounded-[12px]",
         "bg-white",

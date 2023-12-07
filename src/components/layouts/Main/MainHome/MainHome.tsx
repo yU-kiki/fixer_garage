@@ -1,4 +1,4 @@
-import { ProductWrapper } from "@/components/elements/ProductWrapper";
+import { ProductsWrapper } from "@/components/elements/ProductsWrapper";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
@@ -15,7 +15,7 @@ export const MainHome = ({ className }: MainHomeProps) => {
         "mb-[64px]"
       )}
     >
-      <ProductWrapper />
+      <ProductsWrapper />
     </div>
   );
 };
