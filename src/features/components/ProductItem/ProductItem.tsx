@@ -4,10 +4,10 @@ import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
 interface StockStatusProps {
-  stocks: { [size: string]: number };
+  sizes: { [size: string]: number };
 }
-const StockStatus = ({ stocks }: StockStatusProps) => {
-  const isSoldOut = Object.values(stocks).every((quantity) => quantity === 0);
+const StockStatus = ({ sizes }: StockStatusProps) => {
+  const isSoldOut = Object.values(sizes).every((quantity) => quantity === 0);
 
   return (
     <>
@@ -90,7 +90,7 @@ export type ProductItemProps = {
   brandName: string;
   price: number;
   discountPrice?: number;
-  stocks: { [size: string]: number };
+  sizes: { [size: string]: number };
 } & BaseProps;
 
 export const ProductItem = ({
@@ -100,7 +100,7 @@ export const ProductItem = ({
   brandName,
   price,
   discountPrice,
-  stocks,
+  sizes,
 }: ProductItemProps) => {
   return (
     <Link
@@ -126,7 +126,7 @@ export const ProductItem = ({
         }}
       />
       <div className={clsx("p-[12px]")}>
-        <StockStatus stocks={stocks} />
+        <StockStatus sizes={sizes} />
         <Brand brandName={brandName} />
         <ProductName productName={productName} />
         <Price price={price} discountPrice={discountPrice} />

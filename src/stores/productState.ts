@@ -8,7 +8,7 @@ export type ProductType = {
   description: string;
   price: number;
   discountPrice?: number;
-  stocks: { [size: string]: number };
+  sizes: { [size: string]: number };
 };
 
 export const productState = atom<ProductType | null>({

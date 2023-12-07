@@ -38,7 +38,7 @@ export default function Product({ className }: ProductProps) {
             description={product.description}
             price={product.price}
             discountPrice={product.discountPrice}
-            stocks={product.stocks}
+            sizes={product.sizes}
           />
         )}
       </Main>

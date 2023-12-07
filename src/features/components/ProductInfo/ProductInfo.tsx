@@ -1,11 +1,13 @@
+import React, { useState } from "react";
+import { PurchaseInfo } from "@/features/components/PurchaseInfo";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
-interface StockStatusProps {
-  stocks: { [size: string]: number };
+interface stockStatusProps {
+  sizes: { [size: string]: number };
 }
-const StockStatus = ({ stocks }: StockStatusProps) => {
-  const isSoldOut = Object.values(stocks).every((quantity) => quantity === 0);
+const StockStatus = ({ sizes }: stockStatusProps) => {
+  const isSoldOut = Object.values(sizes).every((quantity) => quantity === 0);
 
   return (
     <>
@@ -81,19 +83,20 @@ const Description = ({ description }: DescriptionProps) => (
   </p>
 );
 
-interface StockOptionProps {
-  stocks: { [size: string]: number };
+interface SizeOptionProps {
+  sizes: { [size: string]: number };
+  handleSizeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
-const StockOption = ({ stocks }: StockOptionProps) => {
+const SizeOption = ({ sizes, handleSizeChange }: SizeOptionProps) => {
   const sizeOrder = ["XS", "S", "M", "L", "XL"];
 
   return (
     <div className={clsx("flex", "flex-col", "py-[16px]", "text-[16px]")}>
-      <label htmlFor="stock-select" className={clsx("mb-[8px]", "font-[600]")}>
+      <label htmlFor="size-select" className={clsx("mb-[8px]", "font-[600]")}>
         サイズ
       </label>
       <select
-        id="stock-select"
+        id="size-select"
         className={clsx(
           "px-[16px]",
           "py-[8px]",
@@ -101,12 +104,13 @@ const StockOption = ({ stocks }: StockOptionProps) => {
           "border-gray",
           "rounded-[8px]"
         )}
+        onChange={handleSizeChange}
       >
         <option value="">未選択</option>
         {sizeOrder
-          .filter((size) => size in stocks)
+          .filter((size) => size in sizes)
           .map((size) => {
-            const quantity = stocks[size];
+            const quantity = sizes[size];
             return quantity > 0 ? (
               <option key={size} value={size}>
                 {size}
@@ -122,27 +126,33 @@ const StockOption = ({ stocks }: StockOptionProps) => {
   );
 };
 
-
-
 export type ProductInfoProps = {
+  productId: string;
   className?: string;
   productName: string;
   brandName: string;
   description: string;
   price: number;
   discountPrice?: number;
-  stocks: { [size: string]: number };
+  sizes: { [size: string]: number };
 } & BaseProps;
 
 export const ProductInfo = ({
   className,
+  productId,
   productName,
   brandName,
   description,
   price,
   discountPrice,
-  stocks,
+  sizes,
 }: ProductInfoProps) => {
+  const [selectedSize, setSelectedSize] = useState("");
+
+  const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSize(event.target.value);
+  };
+
   return (
     <div
       className={clsx(
@@ -159,7 +169,7 @@ export const ProductInfo = ({
       )}
     >
       <div className={clsx("py-[16px]")}>
-        <StockStatus stocks={stocks} />
+        <StockStatus sizes={sizes} />
         <Brand brandName={brandName} />
         <ProductName productName={productName} />
         <Price price={price} discountPrice={discountPrice} />
@@ -168,7 +178,13 @@ export const ProductInfo = ({
         <Description description={description} />
       </div>
       <div>
-        <StockOption stocks={stocks} />
+        <SizeOption sizes={sizes} handleSizeChange={handleSizeChange} />
+        <PurchaseInfo
+          productId={productId}
+          price={price}
+          discountPrice={discountPrice}
+          selectedSize={selectedSize}
+        />
       </div>
     </div>
   );

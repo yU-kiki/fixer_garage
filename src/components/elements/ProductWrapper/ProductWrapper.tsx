@@ -11,7 +11,7 @@ export type ProductWrapperProps = {
   description: string;
   price: number;
   discountPrice?: number;
-  stocks: { [size: string]: number };
+  sizes: { [size: string]: number };
 } & BaseProps;
 
 export const ProductWrapper = ({
@@ -22,7 +22,7 @@ export const ProductWrapper = ({
   description,
   price,
   discountPrice,
-  stocks,
+  sizes,
 }: ProductWrapperProps) => {
   return (
     <div
@@ -36,12 +36,13 @@ export const ProductWrapper = ({
     >
       <ProductImage productId={productId} />
       <ProductInfo
+        productId={productId}
         productName={productName}
         brandName={brandName}
         description={description}
         price={price}
         discountPrice={discountPrice}
-        stocks={stocks}
+        sizes={sizes}
       />
     </div>
   );
