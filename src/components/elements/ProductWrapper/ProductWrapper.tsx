@@ -37,10 +37,10 @@ export const ProductWrapper = ({ className }: ProductWrapperProps) => {
         <ProductItem
           key={index}
           productId={product.id}
-          productName={product.product_name}
-          brandName={product.brand_name}
+          productName={product.productName}
+          brandName={product.brandName}
           price={product.price}
-          discountPrice={product.discount_price}
+          discountPrice={product.discountPrice}
           stocks={product.stocks}
         />
       ))}
