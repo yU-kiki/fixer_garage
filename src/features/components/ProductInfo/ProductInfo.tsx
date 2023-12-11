@@ -73,7 +73,7 @@ const Description = ({ description }: DescriptionProps) => (
   <p
     className={clsx(
       "py-[16px]",
-      "text-[12px]",
+      "text-[14px]",
       "md:text-[16px]",
       "leading-[2]"
     )}

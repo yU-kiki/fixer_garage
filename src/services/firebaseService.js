@@ -9,6 +9,7 @@ const transformProductData = (doc) => {
     productName: data.product_name,
     brandName: data.brand_name,
     description: data.description,
+    detailDescription: data.detail_description,
     price: data.price,
     discountPrice: data.discount_price,
     sizes: data.sizes,

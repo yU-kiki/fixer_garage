@@ -10,7 +10,7 @@ export const MainHome = ({ className }: MainHomeProps) => {
     <div
       className={clsx(
         className,
-        "mt-[48px]",
+        "md:mt-[16px]",
         "mx-auto",
         "mb-[64px]"
       )}

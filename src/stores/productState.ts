@@ -6,6 +6,7 @@ export type ProductType = {
   productName: string;
   brandName: string;
   description: string;
+  detailDescription: string;
   price: number;
   discountPrice?: number;
   sizes: { [size: string]: number };

@@ -22,6 +22,7 @@ export const ProductImage = ({ className, productId }: ProductImageProps) => {
         alt="product"
         width={160}
         height={90}
+        priority
         sizes="100vw"
         style={{
           width: "100%",

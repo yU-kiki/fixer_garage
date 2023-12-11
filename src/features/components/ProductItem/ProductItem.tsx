@@ -119,6 +119,7 @@ export const ProductItem = ({
         alt="商品画像"
         width={160}
         height={90}
+        priority
         sizes="100vw"
         style={{
           width: "100%",
