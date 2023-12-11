@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
@@ -146,10 +147,38 @@ const Cost = ({ price, discountPrice }: CostProps) => {
   );
 };
 
-interface GoPurchaseButtonProps {}
-const GoPurchaseButton = ({}: GoPurchaseButtonProps) => {
+interface GoPurchaseButtonProps {
+  productId: string;
+  productName: string;
+  price: number;
+  discountPrice?: number;
+  selectedSize: string;
+}
+const GoPurchaseButton = ({
+  productId,
+  productName,
+  price,
+  discountPrice,
+  selectedSize,
+}: GoPurchaseButtonProps) => {
+  const router = useRouter();
+
+  const handleGoPurchase = () => {
+    router.push({
+      pathname: "/purchase",
+      query: {
+        productId,
+        productName,
+        price,
+        discountPrice,
+        selectedSize,
+      },
+    });
+  };
+
   return (
     <button
+      onClick={handleGoPurchase}
       className={clsx(
         "w-[100%]",
         "px-[64px]",
@@ -165,8 +194,8 @@ const GoPurchaseButton = ({}: GoPurchaseButtonProps) => {
 };
 
 export type ProductInfoProps = {
-  productId: string;
   className?: string;
+  productId: string;
   productName: string;
   brandName: string;
   description: string;
@@ -221,7 +250,13 @@ export const ProductInfo = ({
       {selectedSize ? (
         <div>
           <Cost price={price} discountPrice={discountPrice} />
-          <GoPurchaseButton />
+          <GoPurchaseButton
+            productId={productId}
+            productName={productName}
+            price={price}
+            discountPrice={discountPrice}
+            selectedSize={selectedSize}
+          />
         </div>
       ) : null}
     </div>
