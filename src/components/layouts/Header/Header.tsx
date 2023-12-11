@@ -12,7 +12,7 @@ export const Header = ({ className }: HeaderProps) => {
       className={clsx(
         className,
         "flex",
-        "justify-between",
+        "justify-center",
         "items-center",
         "fixed",
         "top-0",
@@ -25,9 +25,9 @@ export const Header = ({ className }: HeaderProps) => {
         "bg-white"
       )}
     >
-      <HeaderMenu />
+      {/* <HeaderMenu /> */}
       <HeaderLogo />
-      <HeaderShop />
+      {/* <HeaderShop /> */}
     </header>
   );
 };
