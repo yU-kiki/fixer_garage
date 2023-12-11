@@ -19,7 +19,7 @@ export const PurchaseInfo = ({
   selectedSize,
 }: PurchaseInfoProps) => {
   return (
-    <div className={clsx("mt-[32px]", "px-[16px]", "md:px-[32px]")}>
+    <div className={clsx("md:w-[576px]", "mt-[32px]", "px-[16px]", "md:px-[32px]")}>
       <p
         className={clsx(
           "mb-[16px]",

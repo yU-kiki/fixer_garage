@@ -180,9 +180,9 @@ const GoPurchaseButton = ({
     <button
       onClick={handleGoPurchase}
       className={clsx(
-        "w-[100%]",
+        "w-full",
         "px-[64px]",
-        "py-[8px]",
+        "py-[16px]",
         "text-white",
         "bg-black",
         "rounded-[100px]"

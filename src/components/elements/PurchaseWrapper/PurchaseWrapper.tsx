@@ -1,4 +1,5 @@
 import { PurchaseInfo } from "@/features/components/PurchaseInfo";
+import { CustomerForm } from "@/features/components/CustomerForm";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
@@ -22,14 +23,14 @@ export const PurchaseWrapper = ({
   const finalPrice = discountPrice || price;
 
   return (
-    <div className={clsx("divide-y", "divide-light-gray", className)}>
+    <div className={clsx(className)}>
       <PurchaseInfo
         productId={productId}
         productName={productName}
         finalPrice={finalPrice}
         selectedSize={selectedSize}
       />
-      {/* <CustomerInfo /> */}
+      <CustomerForm />
     </div>
   );
 };

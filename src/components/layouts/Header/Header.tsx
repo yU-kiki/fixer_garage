@@ -18,7 +18,7 @@ export const Header = ({ className }: HeaderProps) => {
         "top-0",
         "z-[10]",
         "h-[80px]",
-        "w-[100%]",
+        "w-full",
         "px-[16px]",
         "md:px-[48px]",
         "shadow-md",
