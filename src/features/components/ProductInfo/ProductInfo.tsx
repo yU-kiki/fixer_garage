@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { PurchaseInfo } from "@/features/components/PurchaseInfo";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
@@ -126,6 +125,45 @@ const SizeOption = ({ sizes, handleSizeChange }: SizeOptionProps) => {
   );
 };
 
+interface CostProps {
+  price: number;
+  discountPrice?: number;
+}
+const Cost = ({ price, discountPrice }: CostProps) => {
+  return (
+    <div
+      className={clsx("flex", "justify-between", "py-[16px]", "text-[16px]")}
+    >
+      <p className={clsx("mb-[8px]")}>購入金額（税込）</p>
+      <p className={clsx("mr-[8px]", "font-[600]", "text-[20px]")}>
+        {discountPrice ? (
+          <>￥{discountPrice.toLocaleString()}</>
+        ) : (
+          <>￥{price.toLocaleString()}</>
+        )}
+      </p>
+    </div>
+  );
+};
+
+interface GoPurchaseButtonProps {}
+const GoPurchaseButton = ({}: GoPurchaseButtonProps) => {
+  return (
+    <button
+      className={clsx(
+        "w-[100%]",
+        "px-[64px]",
+        "py-[8px]",
+        "text-white",
+        "bg-black",
+        "rounded-[100px]"
+      )}
+    >
+      ご購入手続きへ
+    </button>
+  );
+};
+
 export type ProductInfoProps = {
   productId: string;
   className?: string;
@@ -179,13 +217,13 @@ export const ProductInfo = ({
       </div>
       <div>
         <SizeOption sizes={sizes} handleSizeChange={handleSizeChange} />
-        <PurchaseInfo
-          productId={productId}
-          price={price}
-          discountPrice={discountPrice}
-          selectedSize={selectedSize}
-        />
       </div>
+      {selectedSize ? (
+        <div>
+          <Cost price={price} discountPrice={discountPrice} />
+          <GoPurchaseButton />
+        </div>
+      ) : null}
     </div>
   );
 };
