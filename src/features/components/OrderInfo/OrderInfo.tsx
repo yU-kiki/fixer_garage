@@ -3,7 +3,7 @@ import Image from "next/image";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
-export type PurchaseInfoProps = {
+export type OrderInfoProps = {
   className?: string;
   productId: string;
   productName: string;
@@ -11,13 +11,13 @@ export type PurchaseInfoProps = {
   selectedSize: string;
 } & BaseProps;
 
-export const PurchaseInfo = ({
+export const OrderInfo = ({
   className,
   productId,
   productName,
   finalPrice,
   selectedSize,
-}: PurchaseInfoProps) => {
+}: OrderInfoProps) => {
   return (
     <div className={clsx("md:w-[576px]", "mt-[32px]", "px-[16px]", "md:px-[32px]")}>
       <p

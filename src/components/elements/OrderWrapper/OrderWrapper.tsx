@@ -1,9 +1,9 @@
-import { PurchaseInfo } from "@/features/components/PurchaseInfo";
+import { OrderInfo } from "@/features/components/OrderInfo";
 import { CustomerForm } from "@/features/components/CustomerForm";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
-export type PurchaseWrapperProps = {
+export type OrderWrapperProps = {
   className?: string;
   productId: string;
   productName: string;
@@ -12,19 +12,19 @@ export type PurchaseWrapperProps = {
   selectedSize: string;
 } & BaseProps;
 
-export const PurchaseWrapper = ({
+export const OrderWrapper = ({
   className,
   productId,
   productName,
   price,
   discountPrice,
   selectedSize,
-}: PurchaseWrapperProps) => {
+}: OrderWrapperProps) => {
   const finalPrice = discountPrice || price;
 
   return (
     <div className={clsx(className)}>
-      <PurchaseInfo
+      <OrderInfo
         productId={productId}
         productName={productName}
         finalPrice={finalPrice}

@@ -2,12 +2,12 @@ import { useRouter } from "next/router";
 import { Header } from "@/components/layouts/Header";
 import { Footer } from "@/components/layouts/Footer";
 import { Main } from "@/components/layouts/Main";
-import { PurchaseWrapper } from "@/components/elements/PurchaseWrapper";
+import { OrderWrapper } from "@/components/elements/OrderWrapper";
 import { BaseProps } from "@/types/BaseProps";
 
-export type PurchaseProps = {} & BaseProps;
+export type OrderProps = {} & BaseProps;
 
-export default function Purchase({ className }: PurchaseProps) {
+export default function Order({ className }: OrderProps) {
   const router = useRouter();
   const {
     productId = "",
@@ -26,7 +26,7 @@ export default function Purchase({ className }: PurchaseProps) {
     <>
       <Header />
       <Main className="flex justify-center pt-[80px]">
-        <PurchaseWrapper
+        <OrderWrapper
           productId={productId as string}
           productName={productName as string}
           price={numericPrice}

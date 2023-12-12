@@ -147,25 +147,25 @@ const Cost = ({ price, discountPrice }: CostProps) => {
   );
 };
 
-interface GoPurchaseButtonProps {
+interface GoOrderButtonProps {
   productId: string;
   productName: string;
   price: number;
   discountPrice?: number;
   selectedSize: string;
 }
-const GoPurchaseButton = ({
+const GoOrderButton = ({
   productId,
   productName,
   price,
   discountPrice,
   selectedSize,
-}: GoPurchaseButtonProps) => {
+}: GoOrderButtonProps) => {
   const router = useRouter();
 
-  const handleGoPurchase = () => {
+  const handleGoOrder = () => {
     router.push({
-      pathname: "/purchase",
+      pathname: "/order",
       query: {
         productId,
         productName,
@@ -178,7 +178,7 @@ const GoPurchaseButton = ({
 
   return (
     <button
-      onClick={handleGoPurchase}
+      onClick={handleGoOrder}
       className={clsx(
         "w-full",
         "px-[64px]",
@@ -250,7 +250,7 @@ export const ProductInfo = ({
       {selectedSize ? (
         <div>
           <Cost price={price} discountPrice={discountPrice} />
-          <GoPurchaseButton
+          <GoOrderButton
             productId={productId}
             productName={productName}
             price={price}
