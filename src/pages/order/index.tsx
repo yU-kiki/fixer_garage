@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { Header } from "@/components/layouts/Header";
 import { Footer } from "@/components/layouts/Footer";
 import { Main } from "@/components/layouts/Main";
-import { OrderWrapper } from "@/components/elements/OrderWrapper";
+import { OrderWrapper } from "@/features/OrderWrapper";
 import { BaseProps } from "@/types/BaseProps";
 
 export type OrderProps = {} & BaseProps;

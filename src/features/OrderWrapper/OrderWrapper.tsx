@@ -1,5 +1,5 @@
-import { OrderInfo } from "@/features/components/OrderInfo";
-import { CustomerForm } from "@/features/components/CustomerForm";
+import { OrderInfo } from "@/features/components/Order/OrderInfo";
+import { CustomerForm } from "@/features/components/Order/CustomerForm";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 

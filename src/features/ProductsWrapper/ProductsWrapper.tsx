@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { productsState } from "@/stores/productState";
 import { fetchProducts } from "@/services/firebaseService";
-import { ProductItem } from "@/features/components/ProductItem";
+import { ProductItem } from "@/features/components/Products/ProductItem";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 

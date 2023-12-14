@@ -6,7 +6,7 @@ import { fetchProduct } from "@/services/firebaseService";
 import { Header } from "@/components/layouts/Header";
 import { Footer } from "@/components/layouts/Footer";
 import { Main } from "@/components/layouts/Main";
-import { ProductWrapper } from "@/components/elements/ProductWrapper";
+import { ProductWrapper } from "@/features/ProductWrapper";
 import { BaseProps } from "@/types/BaseProps";
 
 export type ProductProps = {} & BaseProps;

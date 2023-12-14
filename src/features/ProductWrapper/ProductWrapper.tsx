@@ -1,6 +1,6 @@
-import { ProductImage } from "@/features/components/ProductImage";
-import { ProductInfo } from "@/features/components/ProductInfo";
-import { DetailProductInfo } from "@/features/components/DetailProductInfo";
+import { ProductImage } from "@/features/components/Product/ProductImage";
+import { ProductInfo } from "@/features/components/Product/ProductInfo";
+import { DetailProductInfo } from "@/features/components/Product/DetailProductInfo";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 

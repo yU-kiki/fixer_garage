@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRecoilState } from "recoil";
+import { customerInfoState } from "@/stores/customerState";
+import { ConfirmOrderButton } from "@/features/components/Order/ConfirmOrderButton/ConfirmOrderButton";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
@@ -8,8 +11,15 @@ interface InputFieldProps {
   type: string;
   name: string;
   placeholder: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
-const InputField = ({ label, type, name, placeholder }: InputFieldProps) => {
+const InputField = ({
+  label,
+  type,
+  name,
+  placeholder,
+  onChange,
+}: InputFieldProps) => {
   return (
     <div className={clsx("mb-[16px]")}>
       <label
@@ -33,6 +43,7 @@ const InputField = ({ label, type, name, placeholder }: InputFieldProps) => {
         name={name}
         id={name}
         placeholder={placeholder}
+        onChange={onChange}
       />
     </div>
   );
@@ -43,8 +54,15 @@ interface RadioButtonProps {
   name: string;
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
+  checked: boolean;
 }
-const RadioButton = ({ label, name, value, onChange }: RadioButtonProps) => {
+const RadioButton = ({
+  label,
+  name,
+  value,
+  onChange,
+  checked,
+}: RadioButtonProps) => {
   return (
     <label className={clsx("inline-flex", "items-center", "mt-[8px]")}>
       <input
@@ -53,6 +71,7 @@ const RadioButton = ({ label, name, value, onChange }: RadioButtonProps) => {
         name={name}
         value={value}
         onChange={onChange}
+        checked={checked}
       />
       <span className={clsx("ml-[8px]")}>{label}</span>
     </label>
@@ -62,10 +81,22 @@ const RadioButton = ({ label, name, value, onChange }: RadioButtonProps) => {
 export type CustomerFormProps = {} & BaseProps;
 
 export const CustomerForm = ({}: CustomerFormProps) => {
+  const [customerInfo, setCustomerInfo] = useRecoilState(customerInfoState);
   const [isBillingDiff, setIsBillingDiff] = useState(false);
 
+  useEffect(() => {
+    setCustomerInfo((info) => ({ ...info, isBillingDiff }));
+  }, [isBillingDiff, setCustomerInfo]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCustomerInfo({ ...customerInfo, [name]: value });
+  };
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsBillingDiff(e.target.value === "different");
+  };
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(customerInfo);
   };
 
   return (
@@ -88,30 +119,35 @@ export const CustomerForm = ({}: CustomerFormProps) => {
           type="text"
           name="postcode"
           placeholder="郵便番号"
+          onChange={handleInputChange}
         />
         <InputField
           label="都道府県"
           type="text"
           name="prefecture"
           placeholder="都道府県"
+          onChange={handleInputChange}
         />
         <InputField
           label="市区町村"
           type="text"
           name="city"
           placeholder="市区町村"
+          onChange={handleInputChange}
         />
         <InputField
           label="住所"
           type="text"
           name="address"
           placeholder="住所"
+          onChange={handleInputChange}
         />
         <InputField
           label="建物名・部屋番号"
           type="text"
-          name="building"
+          name="buildingAddress"
           placeholder="建物名・部屋番号など"
+          onChange={handleInputChange}
         />
 
         <p
@@ -125,18 +161,26 @@ export const CustomerForm = ({}: CustomerFormProps) => {
         >
           お客様情報
         </p>
-        <InputField label="名前" type="text" name="name" placeholder="名前" />
+        <InputField
+          label="名前"
+          type="text"
+          name="name"
+          placeholder="名前"
+          onChange={handleInputChange}
+        />
         <InputField
           label="メールアドレス"
           type="email"
           name="email"
           placeholder="メールアドレス"
+          onChange={handleInputChange}
         />
         <InputField
           label="電話番号"
           type="tel"
           name="phone"
           placeholder="電話番号"
+          onChange={handleInputChange}
         />
 
         <p
@@ -155,6 +199,7 @@ export const CustomerForm = ({}: CustomerFormProps) => {
           name="billingAddress"
           value="same"
           onChange={handleRadioChange}
+          checked={!isBillingDiff}
         />
         <br />
         <RadioButton
@@ -162,6 +207,7 @@ export const CustomerForm = ({}: CustomerFormProps) => {
           name="billingAddress"
           value="different"
           onChange={handleRadioChange}
+          checked={isBillingDiff}
         />
         {isBillingDiff && (
           <div className={clsx("mt-[16px]")}>
@@ -170,47 +216,39 @@ export const CustomerForm = ({}: CustomerFormProps) => {
               type="text"
               name="billingPostcode"
               placeholder="郵便番号"
+              onChange={handleInputChange}
             />
             <InputField
               label="都道府県"
               type="text"
               name="billingPrefecture"
               placeholder="都道府県"
+              onChange={handleInputChange}
             />
             <InputField
               label="市区町村"
               type="text"
               name="billingCity"
               placeholder="市区町村"
+              onChange={handleInputChange}
             />
             <InputField
               label="住所"
               type="text"
               name="billingAddress"
               placeholder="住所"
+              onChange={handleInputChange}
             />
             <InputField
               label="建物名・部屋番号"
               type="text"
-              name="billingBuilding"
+              name="billingBuildingAddress"
               placeholder="建物名・部屋番号など"
+              onChange={handleInputChange}
             />
           </div>
         )}
-        <button
-          type="submit"
-          className={clsx(
-            "w-full",
-            "mt-[32px]",
-            "px-[64px]",
-            "py-[16px]",
-            "text-white",
-            "bg-black",
-            "rounded-[100px]"
-          )}
-        >
-          注文を確定する
-        </button>
+        <ConfirmOrderButton onClick={handleSubmit} />
       </form>
     </div>
   );

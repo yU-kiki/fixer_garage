@@ -1,4 +1,4 @@
-import { ProductsWrapper } from "@/components/elements/ProductsWrapper";
+import { ProductsWrapper } from "@/features/ProductsWrapper";
 import { BaseProps } from "@/types/BaseProps";
 import clsx from "clsx";
 
