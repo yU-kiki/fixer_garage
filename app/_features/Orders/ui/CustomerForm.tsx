@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { ConfirmOrderButton } from '@/_features/Orders/ui/ConfirmOrderButton';
+import sendToSlack from '@/_services/slackPurchaseRecord';
 import { customerInfoState } from '@/_stores/customerState';
 
 interface InputFieldProps {
@@ -92,9 +93,9 @@ export const CustomerForm = () => {
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsBillingDiff(e.target.value === 'different');
   };
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(customerInfo);
-    console.log(e);
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    await sendToSlack(customerInfo);
   };
 
   return (

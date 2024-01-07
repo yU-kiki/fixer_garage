@@ -165,6 +165,7 @@ const GoOrderButton = ({
   const router = useRouter();
 
   const handleGoOrder = () => {
+    // TODO: URLのクエリパラメーターを表示させないようにする
     router.push(
       `/order?productId=${productId}&productName=${productName}&price=${price}&discountPrice=${discountPrice}&selectedSize=${selectedSize}`,
     );
