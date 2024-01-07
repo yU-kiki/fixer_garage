@@ -2,9 +2,9 @@
 
 import fetch from 'node-fetch';
 
-import { CustomerType } from '@/_stores/customerState';
+import { OrderCustomerType } from '@/_stores/orderState';
 
-async function sendToSlack(purchaseData: CustomerType): Promise<void> {
+async function sendToSlack(purchaseData: OrderCustomerType): Promise<void> {
   const slackWebhookURL = process.env.SLACK_PURCHASE_WEBHOOK_URL;
 
   if (!slackWebhookURL) {

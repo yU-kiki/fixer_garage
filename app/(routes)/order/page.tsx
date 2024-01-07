@@ -1,33 +1,23 @@
 'use client';
 
 import clsx from 'clsx';
-import { useSearchParams } from 'next/navigation';
+import { useRecoilState } from 'recoil';
 
 import { CustomerForm } from '@/_features/Orders/ui/CustomerForm';
-import { OrderInfo } from '@/_features/Orders/ui/OrderInfo';
+import { OrderCard } from '@/_features/Orders/ui/OrderCard';
+import { orderProductState } from '@/_stores/orderState';
 
 export default function Order() {
-  const searchParams = useSearchParams();
-
-  const productId = searchParams.get('productId');
-  const productName = searchParams.get('productName');
-  const price = searchParams.get('price');
-  const discountPrice = searchParams.get('discountPrice');
-  const selectedSize = searchParams.get('selectedSize');
-
-  const numericPrice = Number(price);
-  const numericDiscountPrice = discountPrice
-    ? Number(discountPrice)
-    : undefined;
-  const finalPrice = numericDiscountPrice || numericPrice;
+  const [orderProduct] = useRecoilState(orderProductState);
 
   return (
     <div className={clsx()}>
-      <OrderInfo
-        productId={productId as string}
-        productName={productName as string}
-        finalPrice={finalPrice}
-        selectedSize={selectedSize as string}
+      <OrderCard
+        productId={orderProduct.productId as string}
+        productName={orderProduct.productName as string}
+        brandName={orderProduct.brandName as string}
+        finalPrice={orderProduct.finalPrice as number}
+        selectedSize={orderProduct.selectedSize as string}
       />
       <CustomerForm />
     </div>

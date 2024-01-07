@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 
 import { ConfirmOrderButton } from '@/_features/Orders/ui/ConfirmOrderButton';
 import sendToSlack from '@/_services/slackPurchaseRecord';
-import { customerInfoState } from '@/_stores/customerState';
+import { orderCustomerState } from '@/_stores/orderState';
 
 interface InputFieldProps {
   label: string;
@@ -79,7 +79,7 @@ const RadioButton = ({
 };
 
 export const CustomerForm = () => {
-  const [customerInfo, setCustomerInfo] = useRecoilState(customerInfoState);
+  const [customerInfo, setCustomerInfo] = useRecoilState(orderCustomerState);
   const [isBillingDiff, setIsBillingDiff] = useState(false);
 
   useEffect(() => {

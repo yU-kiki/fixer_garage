@@ -2,21 +2,21 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export type OrderInfoProps = {
-  className?: string;
+export type OrderCardProps = {
   productId: string;
   productName: string;
+  brandName: string;
   finalPrice: number;
   selectedSize: string;
 };
 
-export const OrderInfo = ({
-  className,
+export const OrderCard = ({
   productId,
   productName,
+  brandName,
   finalPrice,
   selectedSize,
-}: OrderInfoProps) => {
+}: OrderCardProps) => {
   return (
     <div
       className={clsx('md:w-[576px]', 'mt-[32px]', 'px-[16px]', 'md:px-[32px]')}
@@ -27,7 +27,6 @@ export const OrderInfo = ({
           'font-[600]',
           'text-[18px]',
           'md:text-[20px]',
-          className,
         )}
       >
         商品詳細
@@ -71,7 +70,6 @@ export const OrderInfo = ({
             'text-[14px]',
             'md:text-[16px]',
             'leading-[1.5]',
-            className,
           )}
         >
           <Link
@@ -82,7 +80,8 @@ export const OrderInfo = ({
           >
             <p>{productName}</p>
           </Link>
-          <p className={clsx('py-[8px]', className)}>サイズ： {selectedSize}</p>
+          <p className={clsx('py-[8px]')}>ブランド： {brandName}</p>
+          <p className={clsx('pb-[8px]')}>サイズ： {selectedSize}</p>
           <p>￥{finalPrice.toLocaleString()}</p>
         </div>
       </div>

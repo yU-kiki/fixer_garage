@@ -3,6 +3,9 @@
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+
+import { orderProductState } from '@/_stores/orderState';
 
 interface stockStatusProps {
   sizes: { [size: string]: number };
@@ -151,6 +154,7 @@ const Cost = ({ price, discountPrice }: CostProps) => {
 interface GoOrderButtonProps {
   productId: string;
   productName: string;
+  brandName: string;
   price: number;
   discountPrice?: number;
   selectedSize: string;
@@ -158,17 +162,25 @@ interface GoOrderButtonProps {
 const GoOrderButton = ({
   productId,
   productName,
+  brandName,
   price,
   discountPrice,
   selectedSize,
 }: GoOrderButtonProps) => {
   const router = useRouter();
+  const [orderProduct, setOrderProduct] = useRecoilState(orderProductState);
 
   const handleGoOrder = () => {
-    // TODO: URLのクエリパラメーターを表示させないようにする
-    router.push(
-      `/order?productId=${productId}&productName=${productName}&price=${price}&discountPrice=${discountPrice}&selectedSize=${selectedSize}`,
-    );
+    setOrderProduct({
+      ...orderProduct,
+      productId: productId,
+      productName: productName,
+      brandName: brandName,
+      finalPrice: discountPrice ? discountPrice : price,
+      selectedSize: selectedSize,
+    });
+
+    router.push('/order');
   };
 
   return (
@@ -248,6 +260,7 @@ export const ProductDetails = ({
           <GoOrderButton
             productId={productId}
             productName={productName}
+            brandName={brandName}
             price={price}
             discountPrice={discountPrice}
             selectedSize={selectedSize}
