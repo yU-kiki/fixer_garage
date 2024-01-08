@@ -171,14 +171,18 @@ const GoOrderButton = ({
   const [orderProduct, setOrderProduct] = useRecoilState(orderProductState);
 
   const handleGoOrder = () => {
-    setOrderProduct({
+    const newOrderProduct = {
       ...orderProduct,
       productId: productId,
       productName: productName,
       brandName: brandName,
       finalPrice: discountPrice ? discountPrice : price,
       selectedSize: selectedSize,
-    });
+    };
+
+    setOrderProduct(newOrderProduct);
+
+    localStorage.setItem('orderProduct', JSON.stringify(newOrderProduct));
 
     router.push('/order');
   };

@@ -96,6 +96,8 @@ export const CustomerForm = () => {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await sendToSlack(customerInfo);
+    // 購入が完了したら、ローカルストレージに保存していた商品情報を削除する
+    localStorage.removeItem('orderProduct');
   };
 
   return (
