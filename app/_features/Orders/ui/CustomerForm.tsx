@@ -101,9 +101,7 @@ export const CustomerForm = () => {
   };
 
   return (
-    <div
-      className={clsx('md:w-[576px]', 'mt-[16px]', 'px-[16px]', 'md:px-[32px]')}
-    >
+    <div className={clsx('mt-[16px]')}>
       <form>
         <p
           className={clsx(

@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
+import { GuidanceMessage } from '@/_components/elements/GuidanceMessage';
 import { ProductDescription } from '@/_features/Products/ui/ProductPage/ProductDescription';
 import { ProductDetails } from '@/_features/Products/ui/ProductPage/ProductDetails';
 import { ProductImagesDisplay } from '@/_features/Products/ui/ProductPage/ProductImagesDisplay';
@@ -26,36 +27,41 @@ export default function Product() {
     }
   }, [id]);
 
-  if (!product?.isDisplay) {
-    // TODO: 商品が存在しない場合の表示を作成
-    return <div>商品が見つかりません。</div>;
-  }
-
   return (
-    <div>
-      <div
-        className={clsx(
-          'md:flex',
-          'md:justify-between',
-          'md:mt-[32px]',
-          'md:px-[32px]',
-        )}
-      >
-        <ProductImagesDisplay productId={product.id} />
-        <ProductDetails
-          productId={product.id}
-          productName={product.productName}
-          brandName={product.brandName}
-          description={product.description}
-          price={product.price}
-          discountPrice={product.discountPrice}
-          sizes={product.sizes}
+    <>
+      {!product?.isDisplay ? (
+        <GuidanceMessage
+          message="商品が公開されていません"
+          actionText="商品ページへ戻る"
+          actionLink="/"
         />
-      </div>
-      <ProductDescription
-        brandName={product.brandName}
-        detailDescription={product.detailDescription}
-      />
-    </div>
+      ) : (
+        <>
+          <div
+            className={clsx(
+              'md:flex',
+              'md:justify-between',
+              'md:mt-[32px]',
+              'md:px-[32px]',
+            )}
+          >
+            <ProductImagesDisplay productId={product.id} />
+            <ProductDetails
+              productId={product.id}
+              productName={product.productName}
+              brandName={product.brandName}
+              description={product.description}
+              price={product.price}
+              discountPrice={product.discountPrice}
+              sizes={product.sizes}
+            />
+          </div>
+          <ProductDescription
+            brandName={product.brandName}
+            detailDescription={product.detailDescription}
+          />
+        </>
+      )}
+    </>
   );
 }

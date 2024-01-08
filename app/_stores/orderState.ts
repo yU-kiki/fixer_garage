@@ -19,6 +19,14 @@ export const orderProductState = atom<OrderProductType>({
   },
 });
 
+export const getDefaultOrderProduct = (): OrderProductType => ({
+  productId: '',
+  productName: '',
+  brandName: '',
+  finalPrice: 0,
+  selectedSize: '',
+});
+
 export type OrderCustomerType = {
   name: string;
   email: string;

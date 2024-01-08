@@ -1,6 +1,12 @@
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSetRecoilState } from 'recoil';
+
+import {
+  orderProductState,
+  getDefaultOrderProduct,
+} from '@/_stores/orderState';
 
 export type OrderCardProps = {
   productId: string;
@@ -17,10 +23,15 @@ export const OrderCard = ({
   finalPrice,
   selectedSize,
 }: OrderCardProps) => {
+  const setOrderProduct = useSetRecoilState(orderProductState);
+
+  const handleRemoveOrderProduct = () => {
+    localStorage.removeItem('orderProduct');
+    setOrderProduct(getDefaultOrderProduct());
+  };
+
   return (
-    <div
-      className={clsx('md:w-[576px]', 'mt-[32px]', 'px-[16px]', 'md:px-[32px]')}
-    >
+    <div className={clsx('mt-[32px]')}>
       <p
         className={clsx(
           'mb-[16px]',
@@ -40,6 +51,7 @@ export const OrderCard = ({
         )}
       >
         <Link
+          href={`/product/unknownjp/${productId}`}
           className={clsx(
             'flex',
             'max-w-[192px]',
@@ -47,7 +59,6 @@ export const OrderCard = ({
             'mr-[16px]',
             'md:mr-[32px]',
           )}
-          href={`/product/unknownjp/${productId}`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -73,16 +84,34 @@ export const OrderCard = ({
           )}
         >
           <Link
-            className={clsx('underline')}
             href={`/product/unknownjp/${productId}`}
+            className={clsx('underline')}
             target="_blank"
             rel="noopener noreferrer"
           >
             <p>{productName}</p>
           </Link>
-          <p className={clsx('py-[8px]')}>ブランド： {brandName}</p>
-          <p className={clsx('pb-[8px]')}>サイズ： {selectedSize}</p>
+          <p className={clsx('py-[4px]', 'md:py-[8px]')}>
+            ブランド： {brandName}
+          </p>
+          <p className={clsx('pb-[4px]', 'md:py-[8px]')}>
+            サイズ： {selectedSize}
+          </p>
           <p>￥{finalPrice.toLocaleString()}</p>
+          <div className={clsx('flex', 'justify-end')}>
+            <p
+              className={clsx(
+                'pr-[8px]',
+                'cursor-pointer',
+                'hover:underline',
+                'text-dark-gray',
+                'decoration-dark-gray',
+              )}
+              onClick={handleRemoveOrderProduct}
+            >
+              削除
+            </p>
+          </div>
         </div>
       </div>
     </div>

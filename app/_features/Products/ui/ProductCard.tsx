@@ -83,7 +83,6 @@ const Price = ({ price, discountPrice }: PriceProps) => {
 };
 
 export type ProductCardProps = {
-  className?: string;
   productId: string;
   productName: string;
   brandName: string;
@@ -93,7 +92,6 @@ export type ProductCardProps = {
 };
 
 export const ProductCard = ({
-  className,
   productId,
   productName,
   brandName,
@@ -110,7 +108,6 @@ export const ProductCard = ({
         'shadow-box',
         'overflow-hidden',
         'cursor-pointer',
-        className,
       )}
     >
       <Image

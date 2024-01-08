@@ -1,28 +1,41 @@
 import clsx from 'clsx';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { HeaderLogo } from '@/_components/elements/HeaderLogo';
+import { CartIcon } from '@/_components/layouts/CartIcon';
 
 export const Header = () => {
   return (
     <header
       className={clsx(
         'flex',
-        'justify-center',
+        'justify-between',
         'items-center',
         'fixed',
         'top-0',
         'z-[10]',
-        'h-[80px]',
         'w-full',
-        'px-[16px]',
+        'h-[80px]',
+        'px-[24px]',
         'md:px-[48px]',
         'shadow-md',
         'bg-white',
       )}
     >
-      {/* <HeaderMenu /> */}
-      <HeaderLogo />
-      {/* <HeaderShop /> */}
+      <Link href="/" className={clsx('md:mx-auto', 'md:pl-[32px]')}>
+        <Image
+          src="/images/logo.svg"
+          alt="ロゴ"
+          width={160}
+          height={32}
+          priority
+          style={{
+            maxWidth: '100%',
+            height: 'auto',
+          }}
+        />
+      </Link>
+      <CartIcon />
     </header>
   );
 };
