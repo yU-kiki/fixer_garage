@@ -47,10 +47,6 @@
             "group": "internal"
           },
           {
-            "pattern": "@/_libs/**",
-            "group": "internal"
-          },
-          {
             "pattern": "@/_providers/**",
             "group": "internal"
           },

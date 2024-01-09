@@ -94,7 +94,7 @@ export const OrderCard = ({
           <p className={clsx('py-[4px]', 'md:py-[8px]')}>
             ブランド： {brandName}
           </p>
-          <p className={clsx('pb-[4px]', 'md:py-[8px]')}>
+          <p className={clsx('pb-[4px]', 'md:pb-[8px]')}>
             サイズ： {selectedSize}
           </p>
           <p>￥{finalPrice.toLocaleString()}</p>

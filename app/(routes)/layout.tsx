@@ -5,11 +5,11 @@ import { Header } from '@/_components/layouts/Header';
 import RecoilProvider from '@/_providers/RecoilProvider';
 import '@/_common/styles/globals.css';
 
-export type LayoutProps = {
+export type RootLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function Layout({ children }: LayoutProps) {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <RecoilProvider>
       <html lang="ja">
