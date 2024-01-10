@@ -4,7 +4,14 @@ import { useRecoilState } from 'recoil';
 
 import { ConfirmOrderButton } from '@/_features/Orders/ui/ConfirmOrderButton';
 import { sendToSlackPurchaseRecord } from '@/_services/slackServices';
-import { orderCustomerState } from '@/_stores/orderState';
+import { saveToSpreadSheetPurchaseRecord } from '@/_services/spreadSheetServices';
+import {
+  CombinedPurchaseType,
+  orderProductState,
+  orderCustomerState,
+  getDefaultOrderProduct,
+  getDefaultOrderCustomer,
+} from '@/_stores/orderState';
 
 interface InputFieldProps {
   label: string;
@@ -79,25 +86,54 @@ const RadioButton = ({
 };
 
 export const CustomerForm = () => {
-  const [customerInfo, setCustomerInfo] = useRecoilState(orderCustomerState);
+  const [orderProduct, setOrderProduct] = useRecoilState(orderProductState);
+  const [orderCustomer, setOrderCustomer] = useRecoilState(orderCustomerState);
   const [isBillingDiff, setIsBillingDiff] = useState(false);
 
   useEffect(() => {
-    setCustomerInfo((info) => ({ ...info, isBillingDiff }));
-  }, [isBillingDiff, setCustomerInfo]);
+    setOrderCustomer((info) => ({ ...info, isBillingDiff }));
+  }, [isBillingDiff, setOrderCustomer]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCustomerInfo({ ...customerInfo, [name]: value });
+    setOrderCustomer({ ...orderCustomer, [name]: value });
   };
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsBillingDiff(e.target.value === 'different');
   };
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await sendToSlackPurchaseRecord(customerInfo);
-    // 購入が完了したら、ローカルストレージに保存していた商品情報を削除する
-    localStorage.removeItem('orderProduct');
+
+    const getCurrentTimeInJST = () => {
+      const now = new Date();
+      return now.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
+    };
+    const currentTime = getCurrentTimeInJST();
+
+    const combinedPurchaseData: CombinedPurchaseType = {
+      time: currentTime,
+      ...orderProduct,
+      ...orderCustomer,
+    };
+
+    const saveResult =
+      await saveToSpreadSheetPurchaseRecord(combinedPurchaseData);
+
+    if (saveResult.status !== 200) {
+      console.error(saveResult.message);
+    } else {
+      console.log(saveResult.message);
+      const slackResult = await sendToSlackPurchaseRecord(combinedPurchaseData);
+
+      if (slackResult.status !== 200) {
+        console.error(slackResult.message);
+      } else {
+        console.log(slackResult.message);
+        localStorage.removeItem('orderProduct');
+        setOrderProduct(getDefaultOrderProduct());
+        setOrderCustomer(getDefaultOrderCustomer());
+      }
+    }
   };
 
   return (

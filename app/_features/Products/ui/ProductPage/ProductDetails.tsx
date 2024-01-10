@@ -199,7 +199,7 @@ const GoOrderButton = ({
         'rounded-[100px]',
       )}
     >
-      ご購入手続きへ
+      カートに入れる
     </button>
   );
 };

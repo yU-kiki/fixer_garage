@@ -42,13 +42,7 @@ export const ProductDescription = ({
           'leading-[2]',
         )}
       >
-        <span
-          className={clsx(
-            'font-[600]',
-            'text-[18px]',
-            'md:text-[20px]',
-          )}
-        >
+        <span className={clsx('font-[600]', 'text-[18px]', 'md:text-[20px]')}>
           商品詳細
         </span>
         <br />

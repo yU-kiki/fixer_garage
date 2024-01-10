@@ -63,3 +63,25 @@ export const orderCustomerState = atom<OrderCustomerType>({
     billingBuildingAddress: '',
   },
 });
+
+export const getDefaultOrderCustomer = (): OrderCustomerType => ({
+  name: '',
+  email: '',
+  phone: '',
+  postcode: '',
+  prefecture: '',
+  city: '',
+  address: '',
+  buildingAddress: '',
+  isBillingDiff: false,
+  billingPostcode: '',
+  billingPrefecture: '',
+  billingCity: '',
+  billingAddress: '',
+  billingBuildingAddress: '',
+});
+
+export type CombinedPurchaseType = OrderProductType &
+  OrderCustomerType & {
+    time: string;
+  };
