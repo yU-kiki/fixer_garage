@@ -1,13 +1,11 @@
 import clsx from 'clsx';
 
 export type ProductDescriptionProps = {
-  className?: string;
   brandName: string;
   detailDescription: string;
 };
 
 export const ProductDescription = ({
-  className,
   brandName,
   detailDescription,
 }: ProductDescriptionProps) => {
@@ -23,7 +21,6 @@ export const ProductDescription = ({
         'md:px-[48px]',
         'divide-y',
         'divide-light-gray',
-        className,
       )}
     >
       <p
@@ -32,19 +29,17 @@ export const ProductDescription = ({
           'font-[600]',
           'text-[20px]',
           'md:text-[24px]',
-          className,
         )}
       >
         商品説明
       </p>
-      <p
+      <div
         className={clsx(
           'py-[8px]',
           'md:py-[16px]',
           'text-[14px]',
           'md:text-[16px]',
           'leading-[2]',
-          className,
         )}
       >
         <span
@@ -52,7 +47,6 @@ export const ProductDescription = ({
             'font-[600]',
             'text-[18px]',
             'md:text-[20px]',
-            className,
           )}
         >
           商品詳細
@@ -60,7 +54,7 @@ export const ProductDescription = ({
         <br />
         <p>{brandName}</p>
         <span dangerouslySetInnerHTML={createMarkup(detailDescription)} />
-      </p>
+      </div>
     </div>
   );
 };

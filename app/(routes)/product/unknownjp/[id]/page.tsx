@@ -45,7 +45,10 @@ export default function Product() {
               'md:px-[32px]',
             )}
           >
-            <ProductImagesDisplay productId={product.id} />
+            <ProductImagesDisplay
+              productId={product.id}
+              brandName={product.brandName}
+            />
             <ProductDetails
               productId={product.id}
               productName={product.productName}

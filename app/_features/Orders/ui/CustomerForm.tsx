@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { ConfirmOrderButton } from '@/_features/Orders/ui/ConfirmOrderButton';
-import sendToSlack from '@/_services/slackPurchaseRecord';
+import { sendToSlackPurchaseRecord } from '@/_services/slackServices';
 import { orderCustomerState } from '@/_stores/orderState';
 
 interface InputFieldProps {
@@ -95,7 +95,7 @@ export const CustomerForm = () => {
   };
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await sendToSlack(customerInfo);
+    await sendToSlackPurchaseRecord(customerInfo);
     // 購入が完了したら、ローカルストレージに保存していた商品情報を削除する
     localStorage.removeItem('orderProduct');
   };

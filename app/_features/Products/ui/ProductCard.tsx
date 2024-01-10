@@ -111,7 +111,7 @@ export const ProductCard = ({
       )}
     >
       <Image
-        src={`/images/products/unknownjp/${productId}/1.png`}
+        src={`/images/products/unknownjp/${productId}/1.JPG`}
         alt="商品画像"
         width={160}
         height={90}

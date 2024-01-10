@@ -205,7 +205,6 @@ const GoOrderButton = ({
 };
 
 export type ProductDetailsProps = {
-  className?: string;
   productId: string;
   productName: string;
   brandName: string;
@@ -216,7 +215,6 @@ export type ProductDetailsProps = {
 };
 
 export const ProductDetails = ({
-  className,
   productId,
   productName,
   brandName,
@@ -243,7 +241,6 @@ export const ProductDetails = ({
         'mx-[16px]',
         'divide-y',
         'divide-light-gray',
-        className,
       )}
     >
       <div className={clsx('py-[16px]')}>
