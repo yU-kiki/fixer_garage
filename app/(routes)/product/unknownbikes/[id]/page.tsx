@@ -47,7 +47,7 @@ export default function Product() {
           >
             <ProductImagesDisplay
               productId={product.id}
-              brandName={product.brandName}
+              imageCount={product.imageCount}
             />
             <ProductDetails
               productId={product.id}

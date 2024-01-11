@@ -10,6 +10,7 @@ export type ProductType = {
   price: number;
   discountPrice?: number;
   sizes: { [size: string]: number };
+  imageCount: number;
 };
 
 export const productState = atom<ProductType | null>({

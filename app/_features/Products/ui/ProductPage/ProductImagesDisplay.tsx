@@ -1,45 +1,33 @@
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-
-import { fetchImageCount } from '@/_services/imageServices';
+import { useState } from 'react';
 
 export type ProductImagesDisplayProps = {
   productId: string;
-  brandName: string;
+  imageCount: number;
 };
 
 export const ProductImagesDisplay = ({
   productId,
-  brandName,
+  imageCount,
 }: ProductImagesDisplayProps) => {
-  const [totalImages, setTotalImages] = useState<number>(0);
   const [imageIndex, setImageIndex] = useState(1);
-
-  useEffect(() => {
-    const loadImageCount = async () => {
-      const count = await fetchImageCount(brandName, productId);
-      setTotalImages(count);
-    };
-
-    loadImageCount();
-  }, [productId, brandName]);
 
   const updateImageIndex = (newIndex: number) => {
     setImageIndex(newIndex);
   };
 
   const goToNextImage = () => {
-    const newIndex = (imageIndex % totalImages) + 1;
+    const newIndex = (imageIndex % imageCount) + 1;
     updateImageIndex(newIndex);
   };
 
   const goToPreviousImage = () => {
-    const newIndex = imageIndex === 1 ? totalImages : imageIndex - 1;
+    const newIndex = imageIndex === 1 ? imageCount : imageIndex - 1;
     updateImageIndex(newIndex);
   };
 
-  const canSlideRight = imageIndex < totalImages;
+  const canSlideRight = imageIndex < imageCount;
   const canSlideLeft = imageIndex > 1;
 
   return (

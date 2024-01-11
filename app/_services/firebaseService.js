@@ -21,6 +21,7 @@ const transformProductData = (doc) => {
     price: data.price,
     discountPrice: data.discount_price,
     sizes: data.sizes,
+    imageCount: data.image_count,
   };
 };
 
