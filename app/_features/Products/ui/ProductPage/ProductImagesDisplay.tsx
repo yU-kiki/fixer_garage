@@ -54,7 +54,7 @@ export const ProductImagesDisplay = ({
       >
         <div>
           <Image
-            src={`/images/products/unknownjp/${productId}/${imageIndex}.JPG`}
+            src={`/images/products/unknownbikes/${productId}/${imageIndex}.JPG`}
             alt="product"
             width={160}
             height={90}
