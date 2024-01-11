@@ -25,7 +25,7 @@ const transformProductData = (doc) => {
 };
 
 export const fetchProducts = async () => {
-  const storeRef = doc(db, 'stores', 'unknownjp');
+  const storeRef = doc(db, 'stores', 'unknownbikes');
   const productsRef = collection(storeRef, 'products');
   const q = query(productsRef, where('is_display', '==', true));
   const snapshot = await getDocs(q);
@@ -34,7 +34,7 @@ export const fetchProducts = async () => {
 };
 
 export const fetchProduct = async (id) => {
-  const storeRef = doc(db, 'stores', 'unknownjp');
+  const storeRef = doc(db, 'stores', 'unknownbikes');
   const productRef = doc(storeRef, 'products', id);
   const snapshot = await getDoc(productRef);
 

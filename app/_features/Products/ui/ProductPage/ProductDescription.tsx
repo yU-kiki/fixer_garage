@@ -1,12 +1,10 @@
 import clsx from 'clsx';
 
 export type ProductDescriptionProps = {
-  brandName: string;
   detailDescription: string;
 };
 
 export const ProductDescription = ({
-  brandName,
   detailDescription,
 }: ProductDescriptionProps) => {
   const createMarkup = (description: string) => {
@@ -46,7 +44,6 @@ export const ProductDescription = ({
           商品詳細
         </span>
         <br />
-        <p className={clsx('mb-[8px]')}>ブランド：{brandName}</p>
         <span dangerouslySetInnerHTML={createMarkup(detailDescription)} />
       </div>
     </div>

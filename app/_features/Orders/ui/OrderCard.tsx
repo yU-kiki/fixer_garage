@@ -51,7 +51,7 @@ export const OrderCard = ({
         )}
       >
         <Link
-          href={`/product/unknownjp/${productId}`}
+          href={`/product/unknownbikes/${productId}`}
           className={clsx(
             'flex',
             'max-w-[192px]',
@@ -63,7 +63,7 @@ export const OrderCard = ({
           rel="noopener noreferrer"
         >
           <Image
-            src={`/images/products/unknownjp/${productId}/1.JPG`}
+            src={`/images/products/unknownbikes/${productId}/1.JPG`}
             alt="商品画像"
             width={160}
             height={90}
@@ -84,7 +84,7 @@ export const OrderCard = ({
           )}
         >
           <Link
-            href={`/product/unknownjp/${productId}`}
+            href={`/product/unknownbikes/${productId}`}
             className={clsx('underline')}
             target="_blank"
             rel="noopener noreferrer"

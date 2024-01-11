@@ -60,7 +60,6 @@ export default function Product() {
             />
           </div>
           <ProductDescription
-            brandName={product.brandName}
             detailDescription={product.detailDescription}
           />
         </>

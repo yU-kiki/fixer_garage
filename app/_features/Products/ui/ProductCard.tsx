@@ -101,7 +101,7 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <Link
-      href={`/product/unknownjp/${productId}`}
+      href={`/product/unknownbikes/${productId}`}
       className={clsx(
         'rounded-[12px]',
         'bg-white',
@@ -111,7 +111,7 @@ export const ProductCard = ({
       )}
     >
       <Image
-        src={`/images/products/unknownjp/${productId}/1.JPG`}
+        src={`/images/products/unknownbikes/${productId}/1.JPG`}
         alt="商品画像"
         width={160}
         height={90}
