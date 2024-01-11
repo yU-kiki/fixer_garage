@@ -46,7 +46,7 @@ export const ProductDescription = ({
           商品詳細
         </span>
         <br />
-        <p>{brandName}</p>
+        <p className={clsx('mb-[8px]')}>ブランド：{brandName}</p>
         <span dangerouslySetInnerHTML={createMarkup(detailDescription)} />
       </div>
     </div>
