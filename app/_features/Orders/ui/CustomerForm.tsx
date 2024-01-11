@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -86,6 +87,7 @@ const RadioButton = ({
 };
 
 export const CustomerForm = () => {
+  const router = useRouter();
   const [orderProduct, setOrderProduct] = useRecoilState(orderProductState);
   const [orderCustomer, setOrderCustomer] = useRecoilState(orderCustomerState);
   const [isBillingDiff, setIsBillingDiff] = useState(false);
@@ -132,6 +134,7 @@ export const CustomerForm = () => {
         localStorage.removeItem('orderProduct');
         setOrderProduct(getDefaultOrderProduct());
         setOrderCustomer(getDefaultOrderCustomer());
+        router.push('/thanks');
       }
     }
   };
