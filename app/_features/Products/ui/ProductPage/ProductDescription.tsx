@@ -8,7 +8,19 @@ export const ProductDescription = ({
   detailDescription,
 }: ProductDescriptionProps) => {
   const createMarkup = (description: string) => {
-    return { __html: description.replace(/\\n/g, '<br />') };
+    let formattedDescription = description.replace(/\\n/g, '<br />');
+
+    formattedDescription = formattedDescription.replace(
+      /\*(.*?)\*/g,
+      '<span style="font-weight: 600;">$1</span>',
+    );
+
+    formattedDescription = formattedDescription.replace(
+      /\[red\](.*?)\[\/red\]/g,
+      '<span style="color: red;">$1</span>',
+    );
+
+    return { __html: formattedDescription };
   };
 
   return (
@@ -33,17 +45,12 @@ export const ProductDescription = ({
       </p>
       <div
         className={clsx(
-          'py-[8px]',
-          'md:py-[16px]',
+          'py-[16px]',
           'text-[14px]',
           'md:text-[16px]',
           'leading-[2]',
         )}
       >
-        <span className={clsx('font-[600]', 'text-[18px]', 'md:text-[20px]')}>
-          商品詳細
-        </span>
-        <br />
         <span dangerouslySetInnerHTML={createMarkup(detailDescription)} />
       </div>
     </div>

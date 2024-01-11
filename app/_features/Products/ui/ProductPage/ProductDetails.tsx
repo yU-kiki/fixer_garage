@@ -74,18 +74,33 @@ const Price = ({ price, discountPrice }: PriceProps) => {
 interface DescriptionProps {
   description: string;
 }
-const Description = ({ description }: DescriptionProps) => (
-  <p
-    className={clsx(
-      'py-[16px]',
-      'text-[14px]',
-      'md:text-[16px]',
-      'leading-[2]',
-    )}
-  >
-    {description}
-  </p>
-);
+const Description = ({ description }: DescriptionProps) => {
+  const createMarkup = (description: string) => {
+    let formattedDescription = description.replace(/\\n/g, '<br />');
+    formattedDescription = formattedDescription.replace(
+      /\*(.*?)\*/g,
+      '<strong>$1</strong>',
+    );
+    formattedDescription = formattedDescription.replace(
+      /\[red\](.*?)\[\/red\]/g,
+      '<span style="color: red;">$1</span>',
+    );
+    return { __html: formattedDescription };
+  };
+
+  return (
+    <div
+      className={clsx(
+        'py-[16px]',
+        'text-[14px]',
+        'md:text-[16px]',
+        'leading-[2]',
+      )}
+      dangerouslySetInnerHTML={createMarkup(description)}
+    />
+  );
+};
+
 
 interface SizeOptionProps {
   sizes: { [size: string]: number };
