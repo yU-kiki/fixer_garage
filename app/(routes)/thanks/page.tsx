@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { Title } from '@/_components/elements/Title';
 
 export default function Thanks() {
-
   return (
     <div
       className={clsx(
