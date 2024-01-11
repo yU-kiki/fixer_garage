@@ -53,7 +53,7 @@ export const ProductImagesDisplay = ({
         )}
       >
         <div>
-          <Image
+          {/* <Image
             src={`/images/products/unknownbikes/${productId}/${imageIndex}.JPG`}
             alt="product"
             width={160}
@@ -64,7 +64,7 @@ export const ProductImagesDisplay = ({
               width: '100%',
               height: 'auto',
             }}
-          />
+          /> */}
           <div
             className={clsx(
               'absolute',
