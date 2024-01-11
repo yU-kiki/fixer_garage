@@ -59,9 +59,7 @@ export default function Product() {
               sizes={product.sizes}
             />
           </div>
-          <ProductDescription
-            detailDescription={product.detailDescription}
-          />
+          <ProductDescription detailDescription={product.detailDescription} />
         </>
       )}
     </>
