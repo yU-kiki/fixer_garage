@@ -16,7 +16,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <head>
           <script
             async
-            src="https://www.googletagmanager.com/gtag/js?id=G-Q0T17ES6X2"
+            src="https://www.googletagmanager.com/gtag/js?id=G-WM3ZYHPDRB"
           ></script>
           <script
             dangerouslySetInnerHTML={{
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', 'G-Q0T17ES6X2');
+                gtag('config', 'G-WM3ZYHPDRB');
               `,
             }}
           />
