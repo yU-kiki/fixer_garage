@@ -4,6 +4,7 @@ import { Footer } from '@/_components/layouts/Footer';
 import { Header } from '@/_components/layouts/Header';
 import RecoilProvider from '@/_providers/RecoilProvider';
 import '@/_common/styles/globals.css';
+import '@splidejs/react-splide/css';
 
 export type RootLayoutProps = {
   children: React.ReactNode;
