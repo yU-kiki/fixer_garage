@@ -32,12 +32,7 @@ export const ProductImagesDisplay = ({
       >
         {Array.from({ length: imageCount }, (_, i) => i + 1).map((index) => (
           <SplideSlide key={index}>
-            <div
-              className={clsx(
-                'w-full',
-                'aspect-[3/2]',
-              )}
-            >
+            <div className={clsx('w-full', 'aspect-[3/2]')}>
               <Image
                 src={`/images/products/unknownbikes/${productId}/${index}.JPG`}
                 alt={`product ${index}`}

@@ -101,7 +101,6 @@ const Description = ({ description }: DescriptionProps) => {
   );
 };
 
-
 interface SizeOptionProps {
   sizes: { [size: string]: number };
   handleSizeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;

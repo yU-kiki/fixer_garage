@@ -90,6 +90,7 @@ export const CustomerForm = () => {
   const router = useRouter();
   const [orderProduct, setOrderProduct] = useRecoilState(orderProductState);
   const [orderCustomer, setOrderCustomer] = useRecoilState(orderCustomerState);
+  const [selectedCountry, setSelectedCountry] = useState('Japan');
   const [isBillingDiff, setIsBillingDiff] = useState(false);
 
   useEffect(() => {
@@ -100,9 +101,15 @@ export const CustomerForm = () => {
     const { name, value } = e.target;
     setOrderCustomer({ ...orderCustomer, [name]: value });
   };
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedCountry(e.target.value);
+  };
+
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsBillingDiff(e.target.value === 'different');
   };
+
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -152,6 +159,35 @@ export const CustomerForm = () => {
         >
           配達先
         </p>
+        <div className={clsx('mb-[16px]')}>
+          <label className={clsx('block', 'font-[600]', 'text-[14px]')}>
+            国名
+          </label>
+          <div className={clsx('flex', 'gap-x-[16px]')}>
+            <RadioButton
+              label="日本"
+              name="country"
+              value="Japan"
+              onChange={handleCountryChange}
+              checked={selectedCountry === 'Japan'}
+            />
+            <RadioButton
+              label="その他"
+              name="country"
+              value="Other"
+              onChange={handleCountryChange}
+              checked={selectedCountry === 'Other'}
+            />
+          </div>
+          {selectedCountry === 'Other' && (
+            <div className={clsx('my-[16px]', 'text-[14px]', 'text-red')}>
+              <p>
+                We are retailing only within Japanese market. <br />
+                Orders from overseas are not accepted.
+              </p>
+            </div>
+          )}
+        </div>
         <InputField
           label="郵便番号"
           type="text"
