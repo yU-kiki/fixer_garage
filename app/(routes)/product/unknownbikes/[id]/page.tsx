@@ -18,6 +18,7 @@ export default function Product() {
   const [product, setProduct] = useRecoilState(productState);
 
   useEffect(() => {
+    setProduct(null);
     if (id && typeof id === 'string') {
       fetchProduct(id).then((data) => {
         if (data) {
@@ -25,7 +26,11 @@ export default function Product() {
         }
       });
     }
-  }, [id]);
+  }, [id, setProduct]);
+
+  if (!product) {
+    return null;
+  }
 
   return (
     <>
