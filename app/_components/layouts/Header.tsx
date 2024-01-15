@@ -22,7 +22,7 @@ export const Header = () => {
         'bg-white',
       )}
     >
-      <Link href="/" className={clsx('md:mx-auto', 'md:pl-[32px]')}>
+      <Link href="/unknownbikesjp" className={clsx('md:mx-auto', 'md:pl-[32px]')}>
         <Image
           src="/images/logo.svg"
           alt="ロゴ"

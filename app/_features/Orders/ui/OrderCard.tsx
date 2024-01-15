@@ -9,6 +9,7 @@ import {
 } from '@/_stores/orderState';
 
 export type OrderCardProps = {
+  brandId: string;
   productId: string;
   productName: string;
   brandName: string;
@@ -17,6 +18,7 @@ export type OrderCardProps = {
 };
 
 export const OrderCard = ({
+  brandId,
   productId,
   productName,
   brandName,
@@ -51,7 +53,7 @@ export const OrderCard = ({
         )}
       >
         <Link
-          href={`/product/unknownbikes/${productId}`}
+          href={`/product/${brandId}/${productId}`}
           className={clsx(
             'flex',
             'max-w-[192px]',
@@ -63,7 +65,7 @@ export const OrderCard = ({
           rel="noopener noreferrer"
         >
           <Image
-            src={`/images/products/unknownbikes/${productId}/1.JPG`}
+            src={`/images/products/${brandId}/${productId}/1.JPG`}
             alt="商品画像"
             width={160}
             height={90}
@@ -84,7 +86,7 @@ export const OrderCard = ({
           )}
         >
           <Link
-            href={`/product/unknownbikes/${productId}`}
+            href={`/product/${brandId}/${productId}`}
             className={clsx('underline')}
             target="_blank"
             rel="noopener noreferrer"

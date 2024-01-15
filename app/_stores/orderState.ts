@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 
 export type OrderProductType = {
+  brandId: string;
   productId: string;
   productName: string;
   brandName: string;
@@ -11,6 +12,7 @@ export type OrderProductType = {
 export const orderProductState = atom<OrderProductType>({
   key: 'orderProductState',
   default: {
+    brandId: '',
     productId: '',
     productName: '',
     brandName: '',
@@ -20,6 +22,7 @@ export const orderProductState = atom<OrderProductType>({
 });
 
 export const getDefaultOrderProduct = (): OrderProductType => ({
+  brandId: '',
   productId: '',
   productName: '',
   brandName: '',

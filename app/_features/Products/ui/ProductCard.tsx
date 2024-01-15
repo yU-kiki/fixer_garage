@@ -83,6 +83,7 @@ const Price = ({ price, discountPrice }: PriceProps) => {
 };
 
 export type ProductCardProps = {
+  brandId: string;
   productId: string;
   productName: string;
   brandName: string;
@@ -92,6 +93,7 @@ export type ProductCardProps = {
 };
 
 export const ProductCard = ({
+  brandId,
   productId,
   productName,
   brandName,
@@ -101,7 +103,7 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <Link
-      href={`/product/unknownbikes/${productId}`}
+      href={`/product/${brandId}/${productId}`}
       className={clsx(
         'rounded-[12px]',
         'bg-white',
@@ -111,7 +113,7 @@ export const ProductCard = ({
       )}
     >
       <Image
-        src={`/images/products/unknownbikes/${productId}/1.JPG`}
+        src={`/images/products/${brandId}/${productId}/1.JPG`}
         alt="商品画像"
         width={160}
         height={90}

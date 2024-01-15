@@ -3,11 +3,13 @@ import clsx from 'clsx';
 import Image from 'next/image';
 
 export type ProductImagesDisplayProps = {
+  brandId: string;
   productId: string;
   imageCount: number;
 };
 
 export const ProductImagesDisplay = ({
+  brandId,
   productId,
   imageCount,
 }: ProductImagesDisplayProps) => {
@@ -34,7 +36,7 @@ export const ProductImagesDisplay = ({
           <SplideSlide key={index}>
             <div className={clsx('w-full', 'aspect-[3/2]')}>
               <Image
-                src={`/images/products/unknownbikes/${productId}/${index}.JPG`}
+                src={`/images/products/${brandId}/${productId}/${index}.JPG`}
                 alt={`product ${index}`}
                 className={clsx('w-full', 'h-full', 'object-contain')}
                 width={160}

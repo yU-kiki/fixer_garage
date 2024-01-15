@@ -14,19 +14,24 @@ import { productState } from '@/_stores/productState';
 
 export default function Product() {
   const params = useParams();
-  const id = params.id;
+  const brandId = Array.isArray(params.brandId)
+    ? params.brandId[0]
+    : params.brandId;
+  const productId = Array.isArray(params.productId)
+    ? params.productId[0]
+    : params.productId;
   const [product, setProduct] = useRecoilState(productState);
 
   useEffect(() => {
     setProduct(null);
-    if (id && typeof id === 'string') {
-      fetchProduct(id).then((data) => {
+    if (productId && typeof productId === 'string') {
+      fetchProduct(brandId, productId).then((data) => {
         if (data) {
           setProduct(data);
         }
       });
     }
-  }, [id, setProduct]);
+  }, [productId, setProduct]);
 
   if (!product) {
     return null;
@@ -38,7 +43,7 @@ export default function Product() {
         <GuidanceMessage
           message="商品が公開されていません"
           actionText="商品ページへ戻る"
-          actionLink="/"
+          actionLink="/unknownbikesjp"
         />
       ) : (
         <>
@@ -51,11 +56,13 @@ export default function Product() {
             )}
           >
             <ProductImagesDisplay
-              productId={product.id}
+              brandId={brandId}
+              productId={productId}
               imageCount={product.imageCount}
             />
             <ProductDetails
-              productId={product.id}
+              brandId={brandId}
+              productId={productId}
               productName={product.productName}
               brandName={product.brandName}
               description={product.description}

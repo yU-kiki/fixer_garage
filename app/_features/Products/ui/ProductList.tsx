@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -9,11 +10,17 @@ import { fetchProducts } from '@/_services/firebaseService';
 import { productsState } from '@/_stores/productState';
 
 export const ProductList = () => {
+  const params = useParams();
+  const brandId = Array.isArray(params.brandId)
+    ? params.brandId[0]
+    : params.brandId;
   const [products, setProducts] = useRecoilState(productsState);
 
   useEffect(() => {
-    fetchProducts().then((data) => setProducts(data));
-  }, [setProducts]);
+    if (brandId) {
+      fetchProducts(brandId).then((data) => setProducts(data));
+    }
+  }, [brandId, setProducts]);
 
   return (
     <div
@@ -35,6 +42,7 @@ export const ProductList = () => {
       {products.map((product, index) => (
         <ProductCard
           key={index}
+          brandId={brandId}
           productId={product.id}
           productName={product.productName}
           brandName={product.brandName}

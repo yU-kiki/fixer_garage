@@ -27,6 +27,7 @@ export default function Order() {
       {hasOrderProduct ? (
         <>
           <OrderCard
+            brandId={orderProduct.brandId as string}
             productId={orderProduct.productId as string}
             productName={orderProduct.productName as string}
             brandName={orderProduct.brandName as string}
@@ -39,7 +40,7 @@ export default function Order() {
         <GuidanceMessage
           message="お客様のカートに商品はありません"
           actionText="商品ページへ戻る"
-          actionLink="/"
+          actionLink="/unknownbikesjp"
         />
       )}
     </div>

@@ -166,6 +166,7 @@ const Cost = ({ price, discountPrice }: CostProps) => {
 };
 
 interface GoOrderButtonProps {
+  brandId: string;
   productId: string;
   productName: string;
   brandName: string;
@@ -174,6 +175,7 @@ interface GoOrderButtonProps {
   selectedSize: string;
 }
 const GoOrderButton = ({
+  brandId,
   productId,
   productName,
   brandName,
@@ -187,6 +189,7 @@ const GoOrderButton = ({
   const handleGoOrder = () => {
     const newOrderProduct = {
       ...orderProduct,
+      brandId: brandId,
       productId: productId,
       productName: productName,
       brandName: brandName,
@@ -219,6 +222,7 @@ const GoOrderButton = ({
 };
 
 export type ProductDetailsProps = {
+  brandId: string;
   productId: string;
   productName: string;
   brandName: string;
@@ -229,6 +233,7 @@ export type ProductDetailsProps = {
 };
 
 export const ProductDetails = ({
+  brandId,
   productId,
   productName,
   brandName,
@@ -273,6 +278,7 @@ export const ProductDetails = ({
         <div>
           <Cost price={price} discountPrice={discountPrice} />
           <GoOrderButton
+            brandId={brandId}
             productId={productId}
             productName={productName}
             brandName={brandName}
