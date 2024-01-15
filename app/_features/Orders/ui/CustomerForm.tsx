@@ -165,14 +165,14 @@ export const CustomerForm = () => {
           </label>
           <div className={clsx('flex', 'gap-x-[16px]')}>
             <RadioButton
-              label="日本"
+              label="日本 (Japan)"
               name="country"
               value="Japan"
               onChange={handleCountryChange}
               checked={selectedCountry === 'Japan'}
             />
             <RadioButton
-              label="その他"
+              label="その他 (Other)"
               name="country"
               value="Other"
               onChange={handleCountryChange}
