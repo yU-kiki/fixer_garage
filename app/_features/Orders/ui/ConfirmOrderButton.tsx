@@ -22,7 +22,7 @@ export const ConfirmOrderButton: React.FC<ConfirmOrderButtonProps> = ({
       )}
       onClick={onClick}
     >
-      注文を確定する
+      注文情報を送信する
     </button>
   );
 };
