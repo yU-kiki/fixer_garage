@@ -14,20 +14,20 @@ export async function generateMetadata({ params }: { params: RouteParams }) {
     MetaDataProps = {
       title: '商品が見つかりません',
       description: '指定された商品は存在しません',
-      imageURL: `/images/ogp.JPG`,
+      imageURL: `https://www.fixergarage.shop/images/ogp.JPG`,
       url: 'fixergarage.shop',
       type: 'article' as const,
     };
-  } else { 
+  } else {
     MetaDataProps = {
       title: `${product.productName}（${product.brandName}）`,
       description: product.description,
-      imageURL: `/images/products/${params.brandId}/${params.productId}/1.JPG`,
-      url: `https://fixergarage.shop/${params.brandId}/${params.productId}`,
+      imageURL: `https://www.fixergarage.shop/images/products/${params.brandId}/${params.productId}/1.JPG`,
+      url: `fixergarage.shop/${params.brandId}/${params.productId}`,
       type: 'article' as const,
     };
   }
-  
+
   return {
     title: {
       default: 'FIXER GARAGE',
@@ -64,7 +64,6 @@ export async function generateMetadata({ params }: { params: RouteParams }) {
     },
   };
 }
-
 
 export type LayoutProps = {
   children: React.ReactNode;
