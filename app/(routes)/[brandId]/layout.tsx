@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: RouteParams }) {
     MetaDataProps = {
       title: 'ストアが見つかりません',
       description: '指定されたストアは存在しません',
-      imageURL: `https://www.fixergarage.shop/images/ogp.png`,
+      imageURL: `https://www.fixergarage.shop/ogp.png`,
       url: 'fixergarage.shop',
       type: 'article' as const,
     };

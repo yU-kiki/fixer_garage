@@ -11,7 +11,7 @@ const MetaDataProps = {
   title: 'ホーム',
   description:
     'ピストバイクショップ「FIXER GARAGE」のオンラインショップ。unknownbikesの日本総代理店。',
-  imageURL: `https://www.fixergarage.shop/images/ogp.png`,
+  imageURL: `https://www.fixergarage.shop/ogp.png`,
   url: 'fixergarage.shop',
   type: 'website' as const,
 };

@@ -75,7 +75,6 @@ interface DescriptionProps {
   description: string;
 }
 const Description = ({ description }: DescriptionProps) => {
-
   return (
     <div
       className={clsx(
