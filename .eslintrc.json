@@ -66,5 +66,13 @@
       }
     ],
     "unused-imports/no-unused-imports": "error"
-  }
+  },
+  "overrides": [
+      {
+        "files": ["next-sitemap.config.js"],
+        "rules": {
+          "@typescript-eslint/no-var-requires": 0
+        }
+      }
+    ]
 }

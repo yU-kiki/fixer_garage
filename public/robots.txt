@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://fixergarage.shop
+
+# Sitemaps
+Sitemap: https://fixergarage.shop/sitemap.xml
