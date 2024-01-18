@@ -9,6 +9,28 @@ import {
 
 import db from '@/_config/firebaseConfig';
 
+const transformBrandData = (doc) => {
+  const data = doc.data();
+  return {
+    id: doc.id,
+    isDisplay: data.is_display,
+    name: data.name,
+    description: data.description,
+  };
+};
+
+export const fetchBrand = async (brandId) => {
+  const brandRef = doc(db, 'stores', brandId);
+  const snapshot = await getDoc(brandRef);
+
+  if (snapshot.exists()) {
+    return transformBrandData(snapshot);
+  } else {
+    console.log('No such brand!');
+    return null;
+  }
+};
+
 const transformProductData = (doc) => {
   const data = doc.data();
   return {

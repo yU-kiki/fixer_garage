@@ -1,29 +1,28 @@
-import { fetchProduct } from '@/_services/firebaseService';
+import { fetchBrand } from '@/_services/firebaseService';
 
 interface RouteParams {
   brandId: string;
-  productId: string;
 }
 
 export async function generateMetadata({ params }: { params: RouteParams }) {
-  const product = await fetchProduct(params.brandId, params.productId);
+  const brand = await fetchBrand(params.brandId);
 
   let MetaDataProps;
 
-  if (!product) {
+  if (!brand) {
     MetaDataProps = {
-      title: '商品が見つかりません',
-      description: '指定された商品は存在しません',
+      title: 'ストアが見つかりません',
+      description: '指定されたストアは存在しません',
       imageURL: `https://www.fixergarage.shop/images/ogp.png`,
       url: 'fixergarage.shop',
       type: 'article' as const,
     };
   } else {
     MetaDataProps = {
-      title: `${product.productName}（${product.brandName}）`,
-      description: product.description,
-      imageURL: `https://www.fixergarage.shop/images/products/${params.brandId}/${params.productId}/1.JPG`,
-      url: `fixergarage.shop/product/${params.brandId}/${params.productId}`,
+      title: brand.name,
+      description: brand.description,
+      imageURL: `https://www.fixergarage.shop/metadata/${params.brandId}/ogp.png`,
+      url: `fixergarage.shop/${params.brandId}`,
       type: 'article' as const,
     };
   }
@@ -65,10 +64,10 @@ export async function generateMetadata({ params }: { params: RouteParams }) {
   };
 }
 
-export type ProductLayoutProps = {
+export type BrandLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function Layout({ children }: ProductLayoutProps) {
+export default function Layout({ children }: BrandLayoutProps) {
   return <>{children}</>;
 }
