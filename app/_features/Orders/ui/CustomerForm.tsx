@@ -127,9 +127,7 @@ export const CustomerForm = () => {
       ...orderCustomer,
     };
 
-    const emailBody = orderConfirmation(
-      combinedPurchaseData
-    );
+    const emailBody = orderConfirmation(combinedPurchaseData);
 
     const emailResult = await sendEmailWithSendGrid(
       orderCustomer.email,

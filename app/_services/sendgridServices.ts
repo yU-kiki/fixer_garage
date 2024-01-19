@@ -2,7 +2,6 @@
 
 import sgMail from '@sendgrid/mail';
 
-
 const sendGridApiKey = process.env.SENDGRID_PURCHASE_API_KEY;
 const sendGridFromEmail = process.env.SENDGRID_THANKS_FROM_EMAIL;
 
