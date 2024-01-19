@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { ConfirmOrderButton } from '@/_features/Orders/ui/ConfirmOrderButton';
+import { orderConfirmation } from '@/_services/emailTemplates/orderConfirmation';
+import { sendEmailWithSendGrid } from '@/_services/sendgridServices';
 import { sendToSlackPurchaseRecord } from '@/_services/slackServices';
 import { saveToSpreadSheetPurchaseRecord } from '@/_services/spreadSheetServices';
 import {
@@ -125,23 +127,40 @@ export const CustomerForm = () => {
       ...orderCustomer,
     };
 
-    const saveResult =
-      await saveToSpreadSheetPurchaseRecord(combinedPurchaseData);
+    const emailBody = orderConfirmation(
+      combinedPurchaseData
+    );
 
-    if (saveResult.status !== 200) {
-      console.error(saveResult.message);
+    const emailResult = await sendEmailWithSendGrid(
+      orderCustomer.email,
+      '【FIXER GARAGE】ご注文ありがとうございました。',
+      emailBody,
+    );
+
+    if (emailResult.status !== 200) {
+      console.error(emailResult.message);
     } else {
-      console.log(saveResult.message);
-      const slackResult = await sendToSlackPurchaseRecord(combinedPurchaseData);
+      console.log(emailResult.message);
 
-      if (slackResult.status !== 200) {
-        console.error(slackResult.message);
+      const saveResult =
+        await saveToSpreadSheetPurchaseRecord(combinedPurchaseData);
+
+      if (saveResult.status !== 200) {
+        console.error(saveResult.message);
       } else {
-        console.log(slackResult.message);
-        localStorage.removeItem('orderProduct');
-        setOrderProduct(getDefaultOrderProduct());
-        setOrderCustomer(getDefaultOrderCustomer());
-        router.push('/thanks');
+        console.log(saveResult.message);
+        const slackResult =
+          await sendToSlackPurchaseRecord(combinedPurchaseData);
+
+        if (slackResult.status !== 200) {
+          console.error(slackResult.message);
+        } else {
+          console.log(slackResult.message);
+          localStorage.removeItem('orderProduct');
+          setOrderProduct(getDefaultOrderProduct());
+          setOrderCustomer(getDefaultOrderCustomer());
+          router.push('/thanks');
+        }
       }
     }
   };
