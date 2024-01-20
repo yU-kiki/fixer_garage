@@ -8,7 +8,7 @@ import {
   getDefaultOrderProduct,
 } from '@/_stores/orderState';
 
-export type OrderCardProps = {
+export type ProductCardCartProps = {
   brandId: string;
   productId: string;
   productName: string;
@@ -17,14 +17,14 @@ export type OrderCardProps = {
   selectedSize: string;
 };
 
-export const OrderCard = ({
+export const ProductCardCart = ({
   brandId,
   productId,
   productName,
   brandName,
   finalPrice,
   selectedSize,
-}: OrderCardProps) => {
+}: ProductCardCartProps) => {
   const setOrderProduct = useSetRecoilState(orderProductState);
 
   const handleRemoveOrderProduct = () => {
@@ -33,9 +33,10 @@ export const OrderCard = ({
   };
 
   return (
-    <div className={clsx('mt-[32px]')}>
+    <div>
       <p
         className={clsx(
+          'mt-[32px]',
           'mb-[16px]',
           'font-[600]',
           'text-[18px]',
@@ -55,7 +56,6 @@ export const OrderCard = ({
         <Link
           href={`/product/${brandId}/${productId}`}
           className={clsx(
-            'flex',
             'w-[192px]',
             'md:w-[240px]',
             'aspect-[3/2]',
@@ -87,19 +87,17 @@ export const OrderCard = ({
         >
           <Link
             href={`/product/${brandId}/${productId}`}
-            className={clsx('underline')}
+            className={clsx('underline', 'font-[600]')}
             target="_blank"
             rel="noopener noreferrer"
           >
             <p>{productName}</p>
           </Link>
-          <p className={clsx('py-[4px]', 'md:py-[8px]')}>
-            ブランド： {brandName}
-          </p>
-          <p className={clsx('pb-[4px]', 'md:pb-[8px]')}>
-            サイズ： {selectedSize}
-          </p>
-          <p>￥{finalPrice.toLocaleString()}</p>
+          <div className={clsx('mt-[4px]', 'md:mt-[8px]')}>
+            <p className={clsx('text-dark-gray')}>{brandName}</p>
+            <p>size: {selectedSize}</p>
+            <p>￥{finalPrice.toLocaleString()}</p>
+          </div>
           <div className={clsx('flex', 'justify-end')}>
             <p
               className={clsx(

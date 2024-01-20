@@ -86,7 +86,7 @@ module.exports = {
   transform: async (config, path) => {
     const currentDate = new Date().toISOString();
 
-    const staticPaths = ['/', '/order', '/thanks'];
+    const staticPaths = ['/', '/cart', '/order', '/thanks'];
     if (staticPaths.includes(path)) {
       return {
         loc: path,

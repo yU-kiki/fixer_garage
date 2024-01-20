@@ -1,4 +1,4 @@
-import { ProductList } from '@/_features/Products/ui/ProductList';
+import { ProductList } from '@/_features/Product/ui/ProductList';
 
 export default function BrandHome() {
   return (

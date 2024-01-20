@@ -189,7 +189,7 @@ const GoOrderButton = ({
 
     localStorage.setItem('orderProduct', JSON.stringify(newOrderProduct));
 
-    router.push('/order');
+    router.push('/cart');
   };
 
   return (

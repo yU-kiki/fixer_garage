@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { ProductCard } from '@/_features/Products/ui/ProductCard';
+import { ProductCard } from '@/_features/Product/ui/ProductCard';
 import { fetchProducts } from '@/_services/firebaseService';
 import { productsState } from '@/_stores/productState';
 

@@ -1,13 +1,12 @@
 import clsx from 'clsx';
 import React from 'react';
 
-export type ConfirmOrderButtonProps = {
+export type NavigateButtonProps = {
+  text: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export const ConfirmOrderButton: React.FC<ConfirmOrderButtonProps> = ({
-  onClick,
-}) => {
+export const NavigateButton = ({ text, onClick }: NavigateButtonProps) => {
   return (
     <button
       type="button"
@@ -22,7 +21,7 @@ export const ConfirmOrderButton: React.FC<ConfirmOrderButtonProps> = ({
       )}
       onClick={onClick}
     >
-      注文情報を送信する
+      {text}
     </button>
   );
 };

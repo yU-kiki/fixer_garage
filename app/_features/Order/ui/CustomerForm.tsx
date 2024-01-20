@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { ConfirmOrderButton } from '@/_features/Orders/ui/ConfirmOrderButton';
+import { NavigateButton } from '@/_components/elements/NavigateButton';
 import { orderConfirmation } from '@/_services/emailTemplates/orderConfirmation';
 import { sendEmailWithSendGrid } from '@/_services/sendgridServices';
 import { sendToSlackPurchaseRecord } from '@/_services/slackServices';
@@ -339,7 +339,7 @@ export const CustomerForm = () => {
             />
           </div>
         )}
-        <ConfirmOrderButton onClick={handleSubmit} />
+        <NavigateButton text="注文情報を送信する" onClick={handleSubmit} />
       </form>
     </div>
   );

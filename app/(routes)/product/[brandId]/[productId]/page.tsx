@@ -6,9 +6,9 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { GuidanceMessage } from '@/_components/elements/GuidanceMessage';
-import { ProductDescription } from '@/_features/Products/ui/ProductPage/ProductDescription';
-import { ProductDetails } from '@/_features/Products/ui/ProductPage/ProductDetails';
-import { ProductImagesDisplay } from '@/_features/Products/ui/ProductPage/ProductImagesDisplay';
+import { ProductDescription } from '@/_features/Product/ui/ProductPage/ProductDescription';
+import { ProductDetails } from '@/_features/Product/ui/ProductPage/ProductDetails';
+import { ProductImagesDisplay } from '@/_features/Product/ui/ProductPage/ProductImagesDisplay';
 import { fetchProduct } from '@/_services/firebaseService';
 import { productState } from '@/_stores/productState';
 

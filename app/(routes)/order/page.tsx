@@ -5,8 +5,9 @@ import { useRecoilState } from 'recoil';
 
 import { GuidanceMessage } from '@/_components/elements/GuidanceMessage';
 import { Title } from '@/_components/elements/Title';
-import { CustomerForm } from '@/_features/Orders/ui/CustomerForm';
-import { OrderCard } from '@/_features/Orders/ui/OrderCard';
+import { CustomerForm } from '@/_features/Order/ui/CustomerForm';
+import { ToggleProductCard } from '@/_features/Order/ui/ToggleProductCard';
+import { ProductCardOrder } from '@/_features/Product/ui/Card/order';
 import { orderProductState } from '@/_stores/orderState';
 
 export default function Order() {
@@ -23,17 +24,19 @@ export default function Order() {
         'md:px-[32px]',
       )}
     >
-      <Title title="ショッピングカート" />
+      <Title title="ご注文手続き" />
       {hasOrderProduct ? (
         <>
-          <OrderCard
-            brandId={orderProduct.brandId as string}
-            productId={orderProduct.productId as string}
-            productName={orderProduct.productName as string}
-            brandName={orderProduct.brandName as string}
-            finalPrice={orderProduct.finalPrice as number}
-            selectedSize={orderProduct.selectedSize as string}
-          />
+          <ToggleProductCard finalPrice={orderProduct.finalPrice}>
+            <ProductCardOrder
+              brandId={orderProduct.brandId as string}
+              productId={orderProduct.productId as string}
+              productName={orderProduct.productName as string}
+              brandName={orderProduct.brandName as string}
+              finalPrice={orderProduct.finalPrice as number}
+              selectedSize={orderProduct.selectedSize as string}
+            />
+          </ToggleProductCard>
           <CustomerForm />
         </>
       ) : (
