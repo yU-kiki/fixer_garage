@@ -56,8 +56,9 @@ export const OrderCard = ({
           href={`/product/${brandId}/${productId}`}
           className={clsx(
             'flex',
-            'max-w-[192px]',
-            'md:max-w-[240px]',
+            'w-[192px]',
+            'md:w-[240px]',
+            'aspect-[3/2]',
             'mr-[16px]',
             'md:mr-[32px]',
           )}
@@ -67,19 +68,18 @@ export const OrderCard = ({
           <Image
             src={`/images/products/${brandId}/${productId}/1.JPG`}
             alt="商品画像"
+            className={clsx('w-full', 'h-full', 'object-contain')}
             width={160}
             height={90}
             priority
             sizes="100vw"
-            style={{
-              width: '100%',
-              height: 'auto',
-            }}
           />
         </Link>
         <div
           className={clsx(
-            'w-max-[calc(100%-192px-16px)]',
+            'w-[calc(100vw-240px)]',
+            'md:w-[calc(100vw-320px)]',
+            'md:max-w-[240px]',
             'text-[14px]',
             'md:text-[16px]',
             'leading-[1.5]',
