@@ -12,7 +12,7 @@ export const CartIcon = () => {
   const hasOrderProduct = orderProduct.productId !== '';
 
   return (
-    <Link href="/order" className={clsx('relative')}>
+    <Link href="/cart" className={clsx('relative')}>
       {hasOrderProduct && (
         <div
           className={clsx(
