@@ -1,6 +1,6 @@
 import {
-  collection,
   doc,
+  collection,
   getDocs,
   getDoc,
   query,
@@ -54,6 +54,15 @@ export const fetchProducts = async (brandId) => {
   const snapshot = await getDocs(q);
 
   return snapshot.docs.map(transformProductData);
+};
+
+export const fetchProductsInReverseOrder = async (brandId) => {
+  const storeRef = doc(db, 'stores', brandId);
+  const productsRef = collection(storeRef, 'products');
+  const q = query(productsRef, where('is_display', '==', true));
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map(transformProductData).reverse();
 };
 
 export const fetchProduct = async (brandId, productId) => {

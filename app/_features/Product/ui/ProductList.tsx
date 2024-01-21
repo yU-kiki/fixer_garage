@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { ProductCard } from '@/_features/Product/ui/ProductCard';
-import { fetchProducts } from '@/_services/firebaseService';
+import { fetchProductsInReverseOrder } from '@/_services/firebaseService';
 import { productsState } from '@/_stores/productState';
 
 export const ProductList = () => {
@@ -18,7 +18,7 @@ export const ProductList = () => {
 
   useEffect(() => {
     if (brandId) {
-      fetchProducts(brandId).then((data) => setProducts(data));
+      fetchProductsInReverseOrder(brandId).then((data) => setProducts(data));
     }
   }, [brandId, setProducts]);
 
