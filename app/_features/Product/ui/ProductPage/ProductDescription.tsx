@@ -47,7 +47,7 @@ export const ProductDescription = ({
         className={clsx(
           'py-[16px]',
           'text-[14px]',
-          'md:text-[16px]',
+          'xl:text-[16px]',
           'leading-[2]',
         )}
       >

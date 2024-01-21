@@ -76,7 +76,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             }}
           />
         </head>
-        <body className={clsx('text-black', 'font-hiragino')}>
+        <body className={clsx('text-black', 'font-helvetica')}>
           <Header />
           <main className={clsx('pt-[80px]')}>{children}</main>
           <Footer />

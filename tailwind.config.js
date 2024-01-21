@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         'hiragino': ['Hiragino Kaku Gothic Pro', 'sans-serif'],
+        'helvetica': ['Helvetica', 'Helvetica Neue', 'sans-serif'],
       },
       colors: {
         "black": "#231815",

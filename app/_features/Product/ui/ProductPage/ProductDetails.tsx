@@ -80,7 +80,7 @@ const Description = ({ description }: DescriptionProps) => {
       className={clsx(
         'py-[16px]',
         'text-[14px]',
-        'md:text-[16px]',
+        'xl:text-[16px]',
         'leading-[2]',
       )}
     >
@@ -97,7 +97,15 @@ const SizeOption = ({ sizes, handleSizeChange }: SizeOptionProps) => {
   const sizeOrder = ['XS', 'S', 'M', 'L', 'XL'];
 
   return (
-    <div className={clsx('flex', 'flex-col', 'py-[16px]', 'text-[16px]')}>
+    <div
+      className={clsx(
+        'flex',
+        'flex-col',
+        'py-[16px]',
+        'text-[14px]',
+        'xl:text-[16px]',
+      )}
+    >
       <label htmlFor="size-select" className={clsx('mb-[8px]', 'font-[600]')}>
         サイズ
       </label>
