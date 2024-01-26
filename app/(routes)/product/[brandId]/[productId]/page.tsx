@@ -2,10 +2,11 @@
 
 import clsx from 'clsx';
 import { useParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { GuidanceMessage } from '@/_components/elements/GuidanceMessage';
+import { LoadingSpinner } from '@/_components/elements/LoadingSpinner';
 import { ProductDescription } from '@/_features/Product/ui/ProductPage/ProductDescription';
 import { ProductDetails } from '@/_features/Product/ui/ProductPage/ProductDetails';
 import { ProductImagesDisplay } from '@/_features/Product/ui/ProductPage/ProductImagesDisplay';
@@ -13,6 +14,7 @@ import { fetchProduct } from '@/_services/firebaseService';
 import { productState } from '@/_stores/productState';
 
 export default function Product() {
+  const [loading, setLoading] = useState(true);
   const params = useParams();
   const brandId = Array.isArray(params.brandId)
     ? params.brandId[0]
@@ -28,24 +30,17 @@ export default function Product() {
       fetchProduct(brandId, productId).then((data) => {
         if (data) {
           setProduct(data);
+          setLoading(false);
         }
       });
     }
   }, [productId, setProduct]);
 
-  if (!product) {
-    return null;
-  }
-
   return (
     <>
-      {!product?.isDisplay ? (
-        <GuidanceMessage
-          message="商品が公開されていません"
-          actionText="商品ページへ戻る"
-          actionLink="/unknownbikesjp"
-        />
-      ) : (
+      {loading ? (
+        <LoadingSpinner />
+      ) : product?.isDisplay ? (
         <>
           <div
             className={clsx(
@@ -73,6 +68,12 @@ export default function Product() {
           </div>
           <ProductDescription detailDescription={product.detailDescription} />
         </>
+      ) : (
+        <GuidanceMessage
+          message="商品が公開されていません"
+          actionText="商品ページへ戻る"
+          actionLink="/unknownbikesjp"
+        />
       )}
     </>
   );

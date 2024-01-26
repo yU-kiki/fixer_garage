@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
+import { LoadingSpinner } from '@/_components/elements/LoadingSpinner';
 import { NavigateButton } from '@/_components/elements/NavigateButton';
 import { orderConfirmation } from '@/_services/emailTemplates/orderConfirmation';
 import { sendEmailWithSendGrid } from '@/_services/sendgridServices';
@@ -90,6 +91,7 @@ const RadioButton = ({
 
 export const CustomerForm = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [orderProduct, setOrderProduct] = useRecoilState(orderProductState);
   const [orderCustomer, setOrderCustomer] = useRecoilState(orderCustomerState);
   const [selectedCountry, setSelectedCountry] = useState('Japan');
@@ -114,233 +116,235 @@ export const CustomerForm = () => {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setLoading(true);
 
-    const getCurrentTimeInJST = () => {
-      const now = new Date();
-      return now.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
-    };
-    const currentTime = getCurrentTimeInJST();
+    try {
+      const getCurrentTimeInJST = () => {
+        const now = new Date();
+        return now.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
+      };
+      const currentTime = getCurrentTimeInJST();
 
-    const combinedPurchaseData: CombinedPurchaseType = {
-      time: currentTime,
-      ...orderProduct,
-      ...orderCustomer,
-    };
+      const combinedPurchaseData: CombinedPurchaseType = {
+        time: currentTime,
+        ...orderProduct,
+        ...orderCustomer,
+      };
 
-    const emailBody = orderConfirmation(combinedPurchaseData);
+      const emailBody = orderConfirmation(combinedPurchaseData);
+      const emailResult = await sendEmailWithSendGrid(
+        orderCustomer.email,
+        '【FIXER GARAGE】ご注文ありがとうございました。',
+        emailBody,
+      );
 
-    const emailResult = await sendEmailWithSendGrid(
-      orderCustomer.email,
-      '【FIXER GARAGE】ご注文ありがとうございました。',
-      emailBody,
-    );
-
-    if (emailResult.status !== 200) {
-      console.error(emailResult.message);
-    } else {
+      if (emailResult.status !== 200) throw new Error(emailResult.message);
       console.log(emailResult.message);
 
       const saveResult =
         await saveToSpreadSheetPurchaseRecord(combinedPurchaseData);
+      if (saveResult.status !== 200) throw new Error(saveResult.message);
+      console.log(saveResult.message);
 
-      if (saveResult.status !== 200) {
-        console.error(saveResult.message);
-      } else {
-        console.log(saveResult.message);
-        const slackResult =
-          await sendToSlackPurchaseRecord(combinedPurchaseData);
+      const slackResult = await sendToSlackPurchaseRecord(combinedPurchaseData);
+      if (slackResult.status !== 200) throw new Error(slackResult.message);
+      console.log(slackResult.message);
 
-        if (slackResult.status !== 200) {
-          console.error(slackResult.message);
-        } else {
-          console.log(slackResult.message);
-          localStorage.removeItem('orderProduct');
-          setOrderProduct(getDefaultOrderProduct());
-          setOrderCustomer(getDefaultOrderCustomer());
-          router.push('/thanks');
-        }
-      }
+      localStorage.removeItem('orderProduct');
+      setOrderProduct(getDefaultOrderProduct());
+      setOrderCustomer(getDefaultOrderCustomer());
+      router.push('/thanks');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className={clsx('mt-[16px]')}>
-      <form>
-        <p
-          className={clsx(
-            'mb-[16px]',
-            'font-[600]',
-            'text-[18px]',
-            'md:text-[20px]',
-          )}
-        >
-          配達先
-        </p>
-        <div className={clsx('mb-[16px]')}>
-          <label className={clsx('block', 'font-[600]', 'text-[14px]')}>
-            国名
-          </label>
-          <div className={clsx('flex', 'gap-x-[16px]')}>
-            <RadioButton
-              label="日本 (Japan)"
-              name="country"
-              value="Japan"
-              onChange={handleCountryChange}
-              checked={selectedCountry === 'Japan'}
-            />
-            <RadioButton
-              label="その他 (Other)"
-              name="country"
-              value="Other"
-              onChange={handleCountryChange}
-              checked={selectedCountry === 'Other'}
-            />
-          </div>
-          {selectedCountry === 'Other' && (
-            <div className={clsx('my-[16px]', 'text-[14px]', 'text-red')}>
-              <p>
-                We are retailing only within Japanese market. <br />
-                Orders from overseas are not accepted.
-              </p>
+    <>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className={clsx('mt-[16px]')}>
+          <form>
+            <p
+              className={clsx(
+                'mb-[16px]',
+                'font-[600]',
+                'text-[18px]',
+                'md:text-[20px]',
+              )}
+            >
+              配達先
+            </p>
+            <div className={clsx('mb-[16px]')}>
+              <label className={clsx('block', 'font-[600]', 'text-[14px]')}>
+                国名
+              </label>
+              <div className={clsx('flex', 'gap-x-[16px]')}>
+                <RadioButton
+                  label="日本 (Japan)"
+                  name="country"
+                  value="Japan"
+                  onChange={handleCountryChange}
+                  checked={selectedCountry === 'Japan'}
+                />
+                <RadioButton
+                  label="その他 (Other)"
+                  name="country"
+                  value="Other"
+                  onChange={handleCountryChange}
+                  checked={selectedCountry === 'Other'}
+                />
+              </div>
+              {selectedCountry === 'Other' && (
+                <div className={clsx('my-[16px]', 'text-[14px]', 'text-red')}>
+                  <p>
+                    We are retailing only within Japanese market. <br />
+                    Orders from overseas are not accepted.
+                  </p>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <InputField
-          label="郵便番号"
-          type="text"
-          name="postcode"
-          placeholder="郵便番号"
-          onChange={handleInputChange}
-        />
-        <InputField
-          label="都道府県"
-          type="text"
-          name="prefecture"
-          placeholder="都道府県"
-          onChange={handleInputChange}
-        />
-        <InputField
-          label="市区町村"
-          type="text"
-          name="city"
-          placeholder="市区町村"
-          onChange={handleInputChange}
-        />
-        <InputField
-          label="住所"
-          type="text"
-          name="address"
-          placeholder="住所"
-          onChange={handleInputChange}
-        />
-        <InputField
-          label="建物名・部屋番号"
-          type="text"
-          name="buildingAddress"
-          placeholder="建物名・部屋番号など"
-          onChange={handleInputChange}
-        />
-
-        <p
-          className={clsx(
-            'mt-[32px]',
-            'mb-[16px]',
-            'font-[600]',
-            'text-[18px]',
-            'md:text-[20px]',
-          )}
-        >
-          お客様情報
-        </p>
-        <InputField
-          label="名前"
-          type="text"
-          name="name"
-          placeholder="名前"
-          onChange={handleInputChange}
-        />
-        <InputField
-          label="メールアドレス"
-          type="email"
-          name="email"
-          placeholder="メールアドレス"
-          onChange={handleInputChange}
-        />
-        <InputField
-          label="電話番号"
-          type="tel"
-          name="phone"
-          placeholder="電話番号"
-          onChange={handleInputChange}
-        />
-
-        <p
-          className={clsx(
-            'mt-[32px]',
-            'mb-[8px]',
-            'font-[600]',
-            'text-[18px]',
-            'md:text-[20px]',
-          )}
-        >
-          請求先住所
-        </p>
-        <RadioButton
-          label="配送先の住所と同じ"
-          name="billingAddress"
-          value="same"
-          onChange={handleRadioChange}
-          checked={!isBillingDiff}
-        />
-        <br />
-        <RadioButton
-          label="他の請求書先住所を入力"
-          name="billingAddress"
-          value="different"
-          onChange={handleRadioChange}
-          checked={isBillingDiff}
-        />
-        {isBillingDiff && (
-          <div className={clsx('mt-[16px]')}>
             <InputField
               label="郵便番号"
               type="text"
-              name="billingPostcode"
+              name="postcode"
               placeholder="郵便番号"
               onChange={handleInputChange}
             />
             <InputField
               label="都道府県"
               type="text"
-              name="billingPrefecture"
+              name="prefecture"
               placeholder="都道府県"
               onChange={handleInputChange}
             />
             <InputField
               label="市区町村"
               type="text"
-              name="billingCity"
+              name="city"
               placeholder="市区町村"
               onChange={handleInputChange}
             />
             <InputField
               label="住所"
               type="text"
-              name="billingAddress"
+              name="address"
               placeholder="住所"
               onChange={handleInputChange}
             />
             <InputField
               label="建物名・部屋番号"
               type="text"
-              name="billingBuildingAddress"
+              name="buildingAddress"
               placeholder="建物名・部屋番号など"
               onChange={handleInputChange}
             />
-          </div>
-        )}
-        <NavigateButton text="注文情報を送信する" onClick={handleSubmit} />
-      </form>
-    </div>
+
+            <p
+              className={clsx(
+                'mt-[32px]',
+                'mb-[16px]',
+                'font-[600]',
+                'text-[18px]',
+                'md:text-[20px]',
+              )}
+            >
+              お客様情報
+            </p>
+            <InputField
+              label="名前"
+              type="text"
+              name="name"
+              placeholder="名前"
+              onChange={handleInputChange}
+            />
+            <InputField
+              label="メールアドレス"
+              type="email"
+              name="email"
+              placeholder="メールアドレス"
+              onChange={handleInputChange}
+            />
+            <InputField
+              label="電話番号"
+              type="tel"
+              name="phone"
+              placeholder="電話番号"
+              onChange={handleInputChange}
+            />
+
+            <p
+              className={clsx(
+                'mt-[32px]',
+                'mb-[8px]',
+                'font-[600]',
+                'text-[18px]',
+                'md:text-[20px]',
+              )}
+            >
+              請求先住所
+            </p>
+            <RadioButton
+              label="配送先の住所と同じ"
+              name="billingAddress"
+              value="same"
+              onChange={handleRadioChange}
+              checked={!isBillingDiff}
+            />
+            <br />
+            <RadioButton
+              label="他の請求書先住所を入力"
+              name="billingAddress"
+              value="different"
+              onChange={handleRadioChange}
+              checked={isBillingDiff}
+            />
+            {isBillingDiff && (
+              <div className={clsx('mt-[16px]')}>
+                <InputField
+                  label="郵便番号"
+                  type="text"
+                  name="billingPostcode"
+                  placeholder="郵便番号"
+                  onChange={handleInputChange}
+                />
+                <InputField
+                  label="都道府県"
+                  type="text"
+                  name="billingPrefecture"
+                  placeholder="都道府県"
+                  onChange={handleInputChange}
+                />
+                <InputField
+                  label="市区町村"
+                  type="text"
+                  name="billingCity"
+                  placeholder="市区町村"
+                  onChange={handleInputChange}
+                />
+                <InputField
+                  label="住所"
+                  type="text"
+                  name="billingAddress"
+                  placeholder="住所"
+                  onChange={handleInputChange}
+                />
+                <InputField
+                  label="建物名・部屋番号"
+                  type="text"
+                  name="billingBuildingAddress"
+                  placeholder="建物名・部屋番号など"
+                  onChange={handleInputChange}
+                />
+              </div>
+            )}
+            <NavigateButton text="注文情報を送信する" onClick={handleSubmit} />
+          </form>
+        </div>
+      )}
+    </>
   );
 };

@@ -1,0 +1,17 @@
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
+
+.double-bounce1 {
+  animation: sk-bounce 2s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  animation: sk-bounce 2s infinite ease-in-out;
+  animation-delay: -1s;
+}
