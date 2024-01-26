@@ -131,30 +131,38 @@ export const CustomerForm = () => {
         ...orderCustomer,
       };
 
+      // スプレッドシートへの保存
+      const saveResult =
+        await saveToSpreadSheetPurchaseRecord(combinedPurchaseData);
+      if (saveResult.status !== 200) throw new Error(saveResult.message);
+      // console.log(saveResult.message);
+
+      // Slackへの通知
+      const slackResult = await sendToSlackPurchaseRecord(combinedPurchaseData);
+      if (slackResult.status !== 200) throw new Error(slackResult.message);
+      // console.log(slackResult.message);
+
+      // メールの送信
       const emailBody = orderConfirmation(combinedPurchaseData);
       const emailResult = await sendEmailWithSendGrid(
         orderCustomer.email,
         '【FIXER GARAGE】ご注文ありがとうございました。',
         emailBody,
       );
-
       if (emailResult.status !== 200) throw new Error(emailResult.message);
-      console.log(emailResult.message);
+      // console.log(emailResult.message);
 
-      const saveResult =
-        await saveToSpreadSheetPurchaseRecord(combinedPurchaseData);
-      if (saveResult.status !== 200) throw new Error(saveResult.message);
-      console.log(saveResult.message);
-
-      const slackResult = await sendToSlackPurchaseRecord(combinedPurchaseData);
-      if (slackResult.status !== 200) throw new Error(slackResult.message);
-      console.log(slackResult.message);
-
+      // ローカルストレージのクリーンアップとステートのリセット
       localStorage.removeItem('orderProduct');
       setOrderProduct(getDefaultOrderProduct());
       setOrderCustomer(getDefaultOrderCustomer());
+
+      setLoading(false);
       router.push('/thanks');
     } catch (error) {
+      alert(
+        '注文情報の送信に失敗しました。\nお手数ですが、もう一度お試しください。',
+      );
       console.error(error);
     } finally {
       setLoading(false);
