@@ -9,7 +9,6 @@ export type InputFieldProps = {
   value?: string;
   isRequired?: boolean;
   errorMessage?: string;
-  autoFocus?: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
 
@@ -23,7 +22,6 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       value,
       isRequired,
       errorMessage,
-      autoFocus,
       onChange,
     },
     ref,
@@ -65,7 +63,6 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           id={name}
           placeholder={placeholder}
           value={value}
-          autoFocus={autoFocus}
           onChange={onChange}
           ref={ref}
         />

@@ -32,33 +32,64 @@ export const CustomerForm = () => {
   const [customerFormErrors, setCustomerFormErrors] = useState<{
     [key: string]: string;
   }>({});
+  const postcodeRef = useRef<HTMLInputElement>(null);
   const addressRef = useRef<HTMLInputElement>(null);
+  const billingPostcodeRef = useRef<HTMLInputElement>(null);
+  const billingAddressRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setOrderCustomer((info) => ({ ...info, isBillingDiff }));
+    if (postcodeRef.current) {
+      postcodeRef.current.focus();
+    }
   }, [isBillingDiff, setOrderCustomer]);
 
-  const handleAddressAutoFill = (postcode: string) => {
+  useEffect(() => {
+    if (isBillingDiff && billingPostcodeRef.current) {
+      billingPostcodeRef.current.focus();
+    }
+  }, [isBillingDiff]);
+
+  const handleAddressAutoFill = (
+    postcode: string,
+    isBilling: boolean = false,
+  ) => {
     new YubinBangoCore(postcode, (address: AddressType) => {
       setOrderCustomer((prev) => ({
         ...prev,
-        prefecture: address.region || prev.prefecture,
-        city: address.locality || prev.city,
-        address: address.street || prev.address,
+        ...(isBilling
+          ? {
+              billingPrefecture: address.region,
+              billingCity: address.locality,
+              billingAddress: address.street,
+            }
+          : {
+              prefecture: address.region,
+              city: address.locality,
+              address: address.street,
+            }),
       }));
 
-      if (addressRef.current) {
+      if (isBilling && billingAddressRef.current) {
+        billingAddressRef.current.focus();
+      } else if (addressRef.current) {
         addressRef.current.focus();
       }
     });
   };
 
-  const handlePostcodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setOrderCustomer({ ...orderCustomer, [name]: value });
+  const handlePostcodeChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    isBilling: boolean = false,
+  ) => {
+    const { value } = e.target;
+    setOrderCustomer((prev) => ({
+      ...prev,
+      ...(isBilling ? { billingPostcode: value } : { postcode: value }),
+    }));
 
     if (value.length === 7) {
-      handleAddressAutoFill(value);
+      handleAddressAutoFill(value, isBilling);
     }
   };
 
@@ -72,7 +103,19 @@ export const CustomerForm = () => {
   };
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsBillingDiff(e.target.value === 'different');
+    const isBillingDifferent = e.target.value === 'different';
+    setIsBillingDiff(isBillingDifferent);
+
+    if (!isBillingDifferent) {
+      setOrderCustomer((prev) => ({
+        ...prev,
+        billingPostcode: '',
+        billingPrefecture: '',
+        billingCity: '',
+        billingAddress: '',
+        billingBuildingAddress: '',
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -98,18 +141,13 @@ export const CustomerForm = () => {
         ...orderCustomer,
       };
 
-      // スプレッドシートへの保存
       const saveResult =
         await saveToSpreadSheetPurchaseRecord(combinedPurchaseData);
       if (saveResult.status !== 200) throw new Error(saveResult.message);
-      // console.log(saveResult.message);
 
-      // Slackへの通知
       const slackResult = await sendToSlackPurchaseRecord(combinedPurchaseData);
       if (slackResult.status !== 200) throw new Error(slackResult.message);
-      // console.log(slackResult.message);
 
-      // メールの送信
       const emailBody = orderConfirmation(combinedPurchaseData);
       const emailResult = await sendEmailWithSendGrid(
         orderCustomer.email,
@@ -117,9 +155,7 @@ export const CustomerForm = () => {
         emailBody,
       );
       if (emailResult.status !== 200) throw new Error(emailResult.message);
-      // console.log(emailResult.message);
 
-      // ローカルストレージのクリーンアップとステートのリセット
       localStorage.removeItem('orderProduct');
       setOrderProduct(getDefaultOrderProduct());
       setOrderCustomer(getDefaultOrderCustomer());
@@ -187,8 +223,10 @@ export const CustomerForm = () => {
               type="number"
               name="postcode"
               placeholder="郵便番号"
+              value={orderCustomer.postcode}
               isRequired={true}
               errorMessage={customerFormErrors.postcode}
+              ref={postcodeRef}
               onChange={handlePostcodeChange}
             />
             <InputField
@@ -219,7 +257,6 @@ export const CustomerForm = () => {
               value={orderCustomer.address}
               isRequired={true}
               errorMessage={customerFormErrors.address}
-              autoFocus={true}
               ref={addressRef}
               onChange={handleInputChange}
             />
@@ -228,6 +265,7 @@ export const CustomerForm = () => {
               type="text"
               name="buildingAddress"
               placeholder="建物名・部屋番号など"
+              value={orderCustomer.buildingAddress}
               isRequired={false}
               onChange={handleInputChange}
             />
@@ -248,6 +286,7 @@ export const CustomerForm = () => {
               type="text"
               name="name"
               placeholder="名前"
+              value={orderCustomer.name}
               isRequired={true}
               errorMessage={customerFormErrors.name}
               onChange={handleInputChange}
@@ -257,6 +296,7 @@ export const CustomerForm = () => {
               type="email"
               name="email"
               placeholder="メールアドレス"
+              value={orderCustomer.email}
               isRequired={true}
               errorMessage={customerFormErrors.email}
               onChange={handleInputChange}
@@ -266,6 +306,7 @@ export const CustomerForm = () => {
               type="tel"
               name="phone"
               placeholder="電話番号"
+              value={orderCustomer.phone}
               isRequired={true}
               errorMessage={customerFormErrors.phone}
               onChange={handleInputChange}
@@ -304,14 +345,17 @@ export const CustomerForm = () => {
                   type="text"
                   name="billingPostcode"
                   placeholder="郵便番号"
+                  value={orderCustomer.billingPostcode}
                   errorMessage={customerFormErrors.billingPostcode}
-                  onChange={handleInputChange}
+                  ref={billingPostcodeRef}
+                  onChange={(e) => handlePostcodeChange(e, true)}
                 />
                 <InputField
                   label="都道府県"
                   type="text"
                   name="billingPrefecture"
                   placeholder="都道府県"
+                  value={orderCustomer.billingPrefecture}
                   errorMessage={customerFormErrors.billingPrefecture}
                   onChange={handleInputChange}
                 />
@@ -320,6 +364,7 @@ export const CustomerForm = () => {
                   type="text"
                   name="billingCity"
                   placeholder="市区町村"
+                  value={orderCustomer.billingCity}
                   errorMessage={customerFormErrors.billingCity}
                   onChange={handleInputChange}
                 />
@@ -328,7 +373,9 @@ export const CustomerForm = () => {
                   type="text"
                   name="billingAddress"
                   placeholder="住所"
+                  value={orderCustomer.billingAddress}
                   errorMessage={customerFormErrors.billingAddress}
+                  ref={billingAddressRef}
                   onChange={handleInputChange}
                 />
                 <InputField
@@ -336,6 +383,7 @@ export const CustomerForm = () => {
                   type="text"
                   name="billingBuildingAddress"
                   placeholder="建物名・部屋番号など"
+                  value={orderCustomer.billingBuildingAddress}
                   onChange={handleInputChange}
                 />
               </div>
