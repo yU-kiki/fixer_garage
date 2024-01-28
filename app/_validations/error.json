@@ -10,6 +10,10 @@
     "emptyBillingPostcode": "請求書先の郵便番号を入力してください。",
     "emptyBillingPrefecture": "請求書先の都道府県を入力してください。",
     "emptyBillingCity": "請求書先の市区町村を入力してください。",
-    "emptyBillingAddress": "請求書先の住所を入力してください。"
+    "emptyBillingAddress": "請求書先の住所を入力してください。",
+    "invalidEmail": "メールアドレスの形式が正しくありません。",
+    "invalidPhone": "電話番号は10桁または11桁の数字で入力してください。",
+    "invalidPostcode": "郵便番号は7桁の数字で入力してください。",
+    "invalidBillingPostcode": "請求書先の郵便番号は7桁の数字で入力してください。"
   }
 }

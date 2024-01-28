@@ -61,7 +61,7 @@
           {
             "pattern": "@/_common/**",
             "group": "internal"
-          }
+          },
           {
             "pattern": "@/_validations/**",
             "group": "internal"
