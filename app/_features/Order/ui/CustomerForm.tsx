@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRecoilState } from 'recoil';
+import { Core as YubinBangoCore } from 'yubinbango-core2';
 
 import { InputField } from '@/_components/elements/InputField';
 import { LoadingSpinner } from '@/_components/elements/LoadingSpinner';
@@ -11,6 +12,7 @@ import { orderConfirmation } from '@/_services/emailTemplates/orderConfirmation'
 import { sendEmailWithSendGrid } from '@/_services/sendgridServices';
 import { sendToSlackPurchaseRecord } from '@/_services/slackServices';
 import { saveToSpreadSheetPurchaseRecord } from '@/_services/spreadSheetServices';
+import { AddressType } from '@/_stores/addressState';
 import {
   CombinedPurchaseType,
   orderProductState,
@@ -30,10 +32,35 @@ export const CustomerForm = () => {
   const [customerFormErrors, setCustomerFormErrors] = useState<{
     [key: string]: string;
   }>({});
+  const addressRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setOrderCustomer((info) => ({ ...info, isBillingDiff }));
   }, [isBillingDiff, setOrderCustomer]);
+
+  const handleAddressAutoFill = (postcode: string) => {
+    new YubinBangoCore(postcode, (address: AddressType) => {
+      setOrderCustomer((prev) => ({
+        ...prev,
+        prefecture: address.region || prev.prefecture,
+        city: address.locality || prev.city,
+        address: address.street || prev.address,
+      }));
+
+      if (addressRef.current) {
+        addressRef.current.focus();
+      }
+    });
+  };
+
+  const handlePostcodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setOrderCustomer({ ...orderCustomer, [name]: value });
+
+    if (value.length === 7) {
+      handleAddressAutoFill(value);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -157,18 +184,19 @@ export const CustomerForm = () => {
             </div>
             <InputField
               label="郵便番号"
-              type="text"
+              type="number"
               name="postcode"
               placeholder="郵便番号"
               isRequired={true}
               errorMessage={customerFormErrors.postcode}
-              onChange={handleInputChange}
+              onChange={handlePostcodeChange}
             />
             <InputField
               label="都道府県"
               type="text"
               name="prefecture"
               placeholder="都道府県"
+              value={orderCustomer.prefecture}
               isRequired={true}
               errorMessage={customerFormErrors.prefecture}
               onChange={handleInputChange}
@@ -178,6 +206,7 @@ export const CustomerForm = () => {
               type="text"
               name="city"
               placeholder="市区町村"
+              value={orderCustomer.city}
               isRequired={true}
               errorMessage={customerFormErrors.city}
               onChange={handleInputChange}
@@ -187,8 +216,11 @@ export const CustomerForm = () => {
               type="text"
               name="address"
               placeholder="住所"
+              value={orderCustomer.address}
               isRequired={true}
               errorMessage={customerFormErrors.address}
+              autoFocus={true}
+              ref={addressRef}
               onChange={handleInputChange}
             />
             <InputField

@@ -30,7 +30,7 @@ export const customerFormValidation = (request: OrderCustomerType) => {
   }
   if (!request.phone) {
     errors.phone = errorMessage.fieldValue.emptyPhone;
-  } else if (!isValidPhone(request.phone)) { 
+  } else if (!isValidPhone(request.phone)) {
     errors.phone = errorMessage.fieldValue.invalidPhone;
   }
   if (!request.postcode) {
