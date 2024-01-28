@@ -1,0 +1,15 @@
+{
+  "fieldValue": {
+    "emptyName": "名前を入力してください。",
+    "emptyEmail": "メールアドレスを入力してください。",
+    "emptyPhone": "電話番号を入力してください。",
+    "emptyPostcode": "郵便番号を入力してください。",
+    "emptyPrefecture": "都道府県を入力してください。",
+    "emptyCity": "市区町村を入力してください。",
+    "emptyAddress": "住所を入力してください。",
+    "emptyBillingPostcode": "請求書先の郵便番号を入力してください。",
+    "emptyBillingPrefecture": "請求書先の都道府県を入力してください。",
+    "emptyBillingCity": "請求書先の市区町村を入力してください。",
+    "emptyBillingAddress": "請求書先の住所を入力してください。"
+  }
+}

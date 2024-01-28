@@ -3,8 +3,10 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
+import { InputField } from '@/_components/elements/InputField';
 import { LoadingSpinner } from '@/_components/elements/LoadingSpinner';
 import { NavigateButton } from '@/_components/elements/NavigateButton';
+import { RadioButton } from '@/_components/elements/RadioButton';
 import { orderConfirmation } from '@/_services/emailTemplates/orderConfirmation';
 import { sendEmailWithSendGrid } from '@/_services/sendgridServices';
 import { sendToSlackPurchaseRecord } from '@/_services/slackServices';
@@ -16,78 +18,7 @@ import {
   getDefaultOrderProduct,
   getDefaultOrderCustomer,
 } from '@/_stores/orderState';
-
-interface InputFieldProps {
-  label: string;
-  type: string;
-  name: string;
-  placeholder: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-}
-const InputField = ({
-  label,
-  type,
-  name,
-  placeholder,
-  onChange,
-}: InputFieldProps) => {
-  return (
-    <div className={clsx('mb-[16px]')}>
-      <label
-        htmlFor={name}
-        className={clsx('block', 'mb-[4px]', 'font-[600]', 'text-[14px]')}
-      >
-        {label}
-      </label>
-      <input
-        className={clsx(
-          'w-full',
-          'px-[16px]',
-          'py-[8px]',
-          'border',
-          'border-light-gray',
-          'rounded-[8px]',
-          'text-[14px]',
-          'md:text-[16px]',
-        )}
-        type={type}
-        name={name}
-        id={name}
-        placeholder={placeholder}
-        onChange={onChange}
-      />
-    </div>
-  );
-};
-
-interface RadioButtonProps {
-  label: string;
-  name: string;
-  value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-  checked: boolean;
-}
-const RadioButton = ({
-  label,
-  name,
-  value,
-  onChange,
-  checked,
-}: RadioButtonProps) => {
-  return (
-    <label className={clsx('inline-flex', 'items-center', 'mt-[8px]')}>
-      <input
-        type="radio"
-        className={clsx('form-radio', 'w-[20px]', 'h-[20px]', 'text-gray')}
-        name={name}
-        value={value}
-        onChange={onChange}
-        checked={checked}
-      />
-      <span className={clsx('ml-[8px]')}>{label}</span>
-    </label>
-  );
-};
+import { customerFormValidation } from '@/_validations/customerFormValidation';
 
 export const CustomerForm = () => {
   const router = useRouter();
@@ -96,6 +27,9 @@ export const CustomerForm = () => {
   const [orderCustomer, setOrderCustomer] = useRecoilState(orderCustomerState);
   const [selectedCountry, setSelectedCountry] = useState('Japan');
   const [isBillingDiff, setIsBillingDiff] = useState(false);
+  const [customerFormErrors, setCustomerFormErrors] = useState<{
+    [key: string]: string;
+  }>({});
 
   useEffect(() => {
     setOrderCustomer((info) => ({ ...info, isBillingDiff }));
@@ -116,8 +50,14 @@ export const CustomerForm = () => {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setLoading(true);
+    const { isValid, errors } = customerFormValidation(orderCustomer);
 
+    if (!isValid) {
+      setCustomerFormErrors(errors);
+      return;
+    }
+
+    setLoading(true);
     try {
       const getCurrentTimeInJST = () => {
         const now = new Date();
@@ -186,7 +126,7 @@ export const CustomerForm = () => {
             >
               配達先
             </p>
-            <div className={clsx('mb-[16px]')}>
+            <div className={clsx('mb-[24px]')}>
               <label className={clsx('block', 'font-[600]', 'text-[14px]')}>
                 国名
               </label>
@@ -220,6 +160,8 @@ export const CustomerForm = () => {
               type="text"
               name="postcode"
               placeholder="郵便番号"
+              isRequired={true}
+              errorMessage={customerFormErrors.postcode}
               onChange={handleInputChange}
             />
             <InputField
@@ -227,6 +169,8 @@ export const CustomerForm = () => {
               type="text"
               name="prefecture"
               placeholder="都道府県"
+              isRequired={true}
+              errorMessage={customerFormErrors.prefecture}
               onChange={handleInputChange}
             />
             <InputField
@@ -234,6 +178,8 @@ export const CustomerForm = () => {
               type="text"
               name="city"
               placeholder="市区町村"
+              isRequired={true}
+              errorMessage={customerFormErrors.city}
               onChange={handleInputChange}
             />
             <InputField
@@ -241,6 +187,8 @@ export const CustomerForm = () => {
               type="text"
               name="address"
               placeholder="住所"
+              isRequired={true}
+              errorMessage={customerFormErrors.address}
               onChange={handleInputChange}
             />
             <InputField
@@ -248,6 +196,7 @@ export const CustomerForm = () => {
               type="text"
               name="buildingAddress"
               placeholder="建物名・部屋番号など"
+              isRequired={false}
               onChange={handleInputChange}
             />
 
@@ -267,6 +216,8 @@ export const CustomerForm = () => {
               type="text"
               name="name"
               placeholder="名前"
+              isRequired={true}
+              errorMessage={customerFormErrors.name}
               onChange={handleInputChange}
             />
             <InputField
@@ -274,6 +225,8 @@ export const CustomerForm = () => {
               type="email"
               name="email"
               placeholder="メールアドレス"
+              isRequired={true}
+              errorMessage={customerFormErrors.email}
               onChange={handleInputChange}
             />
             <InputField
@@ -281,6 +234,8 @@ export const CustomerForm = () => {
               type="tel"
               name="phone"
               placeholder="電話番号"
+              isRequired={true}
+              errorMessage={customerFormErrors.phone}
               onChange={handleInputChange}
             />
 
@@ -317,6 +272,7 @@ export const CustomerForm = () => {
                   type="text"
                   name="billingPostcode"
                   placeholder="郵便番号"
+                  errorMessage={customerFormErrors.billingPostcode}
                   onChange={handleInputChange}
                 />
                 <InputField
@@ -324,6 +280,7 @@ export const CustomerForm = () => {
                   type="text"
                   name="billingPrefecture"
                   placeholder="都道府県"
+                  errorMessage={customerFormErrors.billingPrefecture}
                   onChange={handleInputChange}
                 />
                 <InputField
@@ -331,6 +288,7 @@ export const CustomerForm = () => {
                   type="text"
                   name="billingCity"
                   placeholder="市区町村"
+                  errorMessage={customerFormErrors.billingCity}
                   onChange={handleInputChange}
                 />
                 <InputField
@@ -338,6 +296,7 @@ export const CustomerForm = () => {
                   type="text"
                   name="billingAddress"
                   placeholder="住所"
+                  errorMessage={customerFormErrors.billingAddress}
                   onChange={handleInputChange}
                 />
                 <InputField
