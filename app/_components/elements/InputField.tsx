@@ -54,6 +54,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             'py-[8px]',
             'border',
             errorMessage ? 'border-red' : 'border-light-gray',
+            'hover:border-dark-gray',
             'rounded-[8px]',
             'text-[14px]',
             'md:text-[16px]',

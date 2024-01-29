@@ -66,9 +66,21 @@ export const SelectField = ({
             border: '1px solid ' + (errorMessage ? 'red' : 'lightgray'),
             borderRadius: '8px',
             fontSize: '14px',
+            '&:hover': {
+              borderColor: 'darkgray',
+            },
             '@media (min-width: 768px)': {
               height: '42px',
               fontSize: '16px',
+            },
+          }),
+          option: (provided, { isDisabled }) => ({
+            ...provided,
+            backgroundColor: 'white',
+            color: isDisabled ? 'lightgray' : 'black',
+            cursor: isDisabled ? 'not-allowed' : 'default',
+            '&:hover': {
+              backgroundColor: '#efefef',
             },
           }),
           indicatorSeparator: () => ({ display: 'none' }),

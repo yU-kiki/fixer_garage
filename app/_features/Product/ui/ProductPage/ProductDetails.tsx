@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import Select, { SingleValue } from 'react-select';
 import { useRecoilState } from 'recoil';
 
 import { orderProductState } from '@/_stores/orderState';
@@ -91,10 +92,29 @@ const Description = ({ description }: DescriptionProps) => {
 
 interface SizeOptionProps {
   sizes: { [size: string]: number };
-  handleSizeChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  selectedSize: string;
+  handleSizeChange: (selectedSize: string) => void;
 }
-const SizeOption = ({ sizes, handleSizeChange }: SizeOptionProps) => {
+const SizeOption = ({ sizes, selectedSize, handleSizeChange }: SizeOptionProps) => {
   const sizeOrder = ['XS', 'S', 'M', 'L', 'XL'];
+
+  const options = sizeOrder
+    .filter((size) => size in sizes)
+    .map((size) => ({
+      value: size,
+      label: sizes[size] > 0 ? size : `${size} (Sold Out)`,
+      isDisabled: sizes[size] === 0,
+    }));
+
+  const handleChange = (
+    selectedOption: SingleValue<{ value: string; label: string }>,
+  ) => {
+    handleSizeChange(selectedOption ? selectedOption.value : '');
+  };
+
+  const selectedOption = options.find(
+    (option) => option.value === selectedSize,
+  );
 
   return (
     <div
@@ -109,33 +129,41 @@ const SizeOption = ({ sizes, handleSizeChange }: SizeOptionProps) => {
       <label htmlFor="size-select" className={clsx('mb-[8px]', 'font-[600]')}>
         サイズ
       </label>
-      <select
+      <Select
         id="size-select"
-        className={clsx(
-          'px-[16px]',
-          'py-[8px]',
-          'border',
-          'border-gray',
-          'rounded-[8px]',
-        )}
-        onChange={handleSizeChange}
-      >
-        <option value="">未選択</option>
-        {sizeOrder
-          .filter((size) => size in sizes)
-          .map((size) => {
-            const quantity = sizes[size];
-            return quantity > 0 ? (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ) : (
-              <option key={size} value={size} disabled>
-                {size} (Sold Out)
-              </option>
-            );
-          })}
-      </select>
+        options={options}
+        classNamePrefix="react-select"
+        value={selectedOption}
+        onChange={handleChange}
+        isOptionDisabled={(option) => option.isDisabled}
+        styles={{
+          control: (provided) => ({
+            ...provided,
+            height: '39px',
+            padding: '0 8px',
+            border: '1px solid lightgray',
+            borderRadius: '8px',
+            fontSize: '14px',
+            '&:hover': {
+              borderColor: 'darkgray',
+            },
+            '@media (min-width: 1024px)': {
+              height: '42px',
+            },
+          }),
+          option: (provided, { isDisabled }) => ({
+            ...provided,
+            backgroundColor: 'white',
+            color: isDisabled ? 'lightgray' : 'black',
+            cursor: isDisabled ? 'not-allowed' : 'default',
+            '&:hover': {
+              backgroundColor: '#efefef',
+              fontSize: '16px',
+            },
+          }),
+          indicatorSeparator: () => ({ display: 'none' }),
+        }}
+      />
     </div>
   );
 };
@@ -240,8 +268,8 @@ export const ProductDetails = ({
 }: ProductDetailsProps) => {
   const [selectedSize, setSelectedSize] = useState('');
 
-  const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedSize(event.target.value);
+  const handleSizeChange = (selectedSize: string) => {
+    setSelectedSize(selectedSize);
   };
 
   return (
@@ -268,7 +296,11 @@ export const ProductDetails = ({
         <Description description={description} />
       </div>
       <div>
-        <SizeOption sizes={sizes} handleSizeChange={handleSizeChange} />
+        <SizeOption
+          sizes={sizes}
+          selectedSize={selectedSize}
+          handleSizeChange={handleSizeChange}
+        />
       </div>
       {selectedSize ? (
         <div>
