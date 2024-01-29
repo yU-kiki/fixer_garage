@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, useRef } from 'react';
 import { useRecoilState } from 'recoil';
-import { Core as YubinBangoCore } from 'yubinbango-core2';
 
 import { InputField } from '@/_components/elements/InputField';
 import { LoadingSpinner } from '@/_components/elements/LoadingSpinner';
@@ -11,10 +10,10 @@ import { RadioButton } from '@/_components/elements/RadioButton';
 import { SelectField } from '@/_components/elements/SelectField';
 import { prefectures } from '@/_data/prefectures';
 import { orderConfirmation } from '@/_services/emailTemplates/orderConfirmation';
+import { getAddressFromZipCode } from '@/_services/getAddressFromZipCode';
 import { sendEmailWithSendGrid } from '@/_services/sendgridServices';
 import { sendToSlackPurchaseRecord } from '@/_services/slackServices';
 import { saveToSpreadSheetPurchaseRecord } from '@/_services/spreadSheetServices';
-import { AddressType } from '@/_stores/addressState';
 import {
   CombinedPurchaseType,
   orderProductState,
@@ -52,32 +51,32 @@ export const CustomerForm = () => {
     }
   }, [isBillingDiff]);
 
-  const handleAddressAutoFill = (
+  const handleAddressAutoFill = async (
     postcode: string,
     isBilling: boolean = false,
   ) => {
-    new YubinBangoCore(postcode, (address: AddressType) => {
+    const saveResult = await getAddressFromZipCode(postcode);
+    if (saveResult.status === 200) {
       setOrderCustomer((prev) => ({
         ...prev,
         ...(isBilling
           ? {
-              billingPrefecture: address.region,
-              billingCity: address.locality,
-              billingAddress: address.street,
+              billingPrefecture: saveResult.address1 || '',
+              billingCity: saveResult.address2 || '',
+              billingAddress: saveResult.address3 || '',
             }
           : {
-              prefecture: address.region,
-              city: address.locality,
-              address: address.street,
+              prefecture: saveResult.address1 || '',
+              city: saveResult.address2 || '',
+              address: saveResult.address3 || '',
             }),
       }));
-
       if (isBilling && billingAddressRef.current) {
         billingAddressRef.current.focus();
       } else if (addressRef.current) {
         addressRef.current.focus();
       }
-    });
+    }
   };
 
   const handlePostcodeChange = (
