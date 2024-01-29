@@ -103,9 +103,8 @@ export const CustomerForm = () => {
     setOrderCustomer({ ...orderCustomer, [name]: value });
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setOrderCustomer({ ...orderCustomer, [name]: value });
+  const handleSelectChange = (value: string, fieldName: string) => {
+    setOrderCustomer({ ...orderCustomer, [fieldName]: value });
   };
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -246,7 +245,7 @@ export const CustomerForm = () => {
                   value={orderCustomer.prefecture}
                   isRequired={true}
                   errorMessage={customerFormErrors.prefecture}
-                  onChange={handleSelectChange}
+                  onChange={(value) => handleSelectChange(value, 'prefecture')}
                 />
               </div>
             </div>
@@ -371,7 +370,9 @@ export const CustomerForm = () => {
                       options={prefectures}
                       value={orderCustomer.billingPrefecture}
                       errorMessage={customerFormErrors.billingPrefecture}
-                      onChange={handleSelectChange}
+                      onChange={(value) =>
+                        handleSelectChange(value, 'billingPrefecture')
+                      }
                     />
                   </div>
                 </div>
