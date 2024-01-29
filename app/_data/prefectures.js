@@ -47,4 +47,4 @@ export const prefectures = [
   { value: '宮崎県', label: '宮崎県' },
   { value: '鹿児島県', label: '鹿児島県' },
   { value: '沖縄県', label: '沖縄県' },
-]
+];

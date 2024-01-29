@@ -9,6 +9,7 @@ import { LoadingSpinner } from '@/_components/elements/LoadingSpinner';
 import { NavigateButton } from '@/_components/elements/NavigateButton';
 import { RadioButton } from '@/_components/elements/RadioButton';
 import { SelectField } from '@/_components/elements/SelectField';
+import { prefectures } from '@/_data/prefectures';
 import { orderConfirmation } from '@/_services/emailTemplates/orderConfirmation';
 import { sendEmailWithSendGrid } from '@/_services/sendgridServices';
 import { sendToSlackPurchaseRecord } from '@/_services/slackServices';
@@ -21,7 +22,6 @@ import {
   getDefaultOrderProduct,
   getDefaultOrderCustomer,
 } from '@/_stores/orderState';
-import { prefectures } from '@/_data/prefectures';
 import { customerFormValidation } from '@/_validations/customerFormValidation';
 
 export const CustomerForm = () => {
@@ -95,9 +95,9 @@ export const CustomerForm = () => {
     }
   };
 
-    const handleCountryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSelectedCountry(e.target.value);
-    };
+  const handleCountryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedCountry(e.target.value);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -225,26 +225,32 @@ export const CustomerForm = () => {
                 </div>
               )}
             </div>
-            <InputField
-              label="郵便番号"
-              type="number"
-              name="postcode"
-              placeholder="郵便番号"
-              value={orderCustomer.postcode}
-              isRequired={true}
-              errorMessage={customerFormErrors.postcode}
-              ref={postcodeRef}
-              onChange={handlePostcodeChange}
-            />
-            <SelectField
-              label="都道府県"
-              name="prefecture"
-              options={prefectures}
-              value={orderCustomer.prefecture}
-              isRequired={true}
-              errorMessage={customerFormErrors.prefecture}
-              onChange={handleSelectChange}
-            />
+            <div className={clsx('flex', 'gap-[16px]')}>
+              <div className={clsx('flex-1')}>
+                <InputField
+                  label="郵便番号"
+                  type="number"
+                  name="postcode"
+                  placeholder="郵便番号"
+                  value={orderCustomer.postcode}
+                  isRequired={true}
+                  errorMessage={customerFormErrors.postcode}
+                  ref={postcodeRef}
+                  onChange={handlePostcodeChange}
+                />
+              </div>
+              <div className={clsx('flex-1')}>
+                <SelectField
+                  label="都道府県"
+                  name="prefecture"
+                  options={prefectures}
+                  value={orderCustomer.prefecture}
+                  isRequired={true}
+                  errorMessage={customerFormErrors.prefecture}
+                  onChange={handleSelectChange}
+                />
+              </div>
+            </div>
             <InputField
               label="市区町村"
               type="text"
@@ -346,24 +352,30 @@ export const CustomerForm = () => {
             />
             {isBillingDiff && (
               <div className={clsx('mt-[16px]')}>
-                <InputField
-                  label="郵便番号"
-                  type="text"
-                  name="billingPostcode"
-                  placeholder="郵便番号"
-                  value={orderCustomer.billingPostcode}
-                  errorMessage={customerFormErrors.billingPostcode}
-                  ref={billingPostcodeRef}
-                  onChange={(e) => handlePostcodeChange(e, true)}
-                />
-                <SelectField
-                  label="都道府県"
-                  name="billingPrefecture"
-                  options={prefectures}
-                  value={orderCustomer.billingPrefecture}
-                  errorMessage={customerFormErrors.billingPrefecture}
-                  onChange={handleSelectChange}
-                />
+                <div className={clsx('flex', 'gap-[16px]')}>
+                  <div className={clsx('flex-1')}>
+                    <InputField
+                      label="郵便番号"
+                      type="text"
+                      name="billingPostcode"
+                      placeholder="郵便番号"
+                      value={orderCustomer.billingPostcode}
+                      errorMessage={customerFormErrors.billingPostcode}
+                      ref={billingPostcodeRef}
+                      onChange={(e) => handlePostcodeChange(e, true)}
+                    />
+                  </div>
+                  <div className={clsx('flex-1')}>
+                    <SelectField
+                      label="都道府県"
+                      name="billingPrefecture"
+                      options={prefectures}
+                      value={orderCustomer.billingPrefecture}
+                      errorMessage={customerFormErrors.billingPrefecture}
+                      onChange={handleSelectChange}
+                    />
+                  </div>
+                </div>
                 <InputField
                   label="市区町村"
                   type="text"
