@@ -95,7 +95,11 @@ interface SizeOptionProps {
   selectedSize: string;
   handleSizeChange: (selectedSize: string) => void;
 }
-const SizeOption = ({ sizes, selectedSize, handleSizeChange }: SizeOptionProps) => {
+const SizeOption = ({
+  sizes,
+  selectedSize,
+  handleSizeChange,
+}: SizeOptionProps) => {
   const sizeOrder = ['XS', 'S', 'M', 'L', 'XL'];
 
   const options = sizeOrder
