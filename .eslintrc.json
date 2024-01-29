@@ -63,6 +63,10 @@
             "group": "internal"
           },
           {
+            "pattern": "@/_data/**",
+            "group": "internal"
+          },
+          {
             "pattern": "@/_validations/**",
             "group": "internal"
           }

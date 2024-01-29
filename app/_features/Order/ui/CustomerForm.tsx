@@ -8,6 +8,7 @@ import { InputField } from '@/_components/elements/InputField';
 import { LoadingSpinner } from '@/_components/elements/LoadingSpinner';
 import { NavigateButton } from '@/_components/elements/NavigateButton';
 import { RadioButton } from '@/_components/elements/RadioButton';
+import { SelectField } from '@/_components/elements/SelectField';
 import { orderConfirmation } from '@/_services/emailTemplates/orderConfirmation';
 import { sendEmailWithSendGrid } from '@/_services/sendgridServices';
 import { sendToSlackPurchaseRecord } from '@/_services/slackServices';
@@ -20,6 +21,7 @@ import {
   getDefaultOrderProduct,
   getDefaultOrderCustomer,
 } from '@/_stores/orderState';
+import { prefectures } from '@/_data/prefectures';
 import { customerFormValidation } from '@/_validations/customerFormValidation';
 
 export const CustomerForm = () => {
@@ -93,13 +95,18 @@ export const CustomerForm = () => {
     }
   };
 
+    const handleCountryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSelectedCountry(e.target.value);
+    };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setOrderCustomer({ ...orderCustomer, [name]: value });
   };
 
-  const handleCountryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedCountry(e.target.value);
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setOrderCustomer({ ...orderCustomer, [name]: value });
   };
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -229,15 +236,14 @@ export const CustomerForm = () => {
               ref={postcodeRef}
               onChange={handlePostcodeChange}
             />
-            <InputField
+            <SelectField
               label="都道府県"
-              type="text"
               name="prefecture"
-              placeholder="都道府県"
+              options={prefectures}
               value={orderCustomer.prefecture}
               isRequired={true}
               errorMessage={customerFormErrors.prefecture}
-              onChange={handleInputChange}
+              onChange={handleSelectChange}
             />
             <InputField
               label="市区町村"
@@ -350,14 +356,13 @@ export const CustomerForm = () => {
                   ref={billingPostcodeRef}
                   onChange={(e) => handlePostcodeChange(e, true)}
                 />
-                <InputField
+                <SelectField
                   label="都道府県"
-                  type="text"
                   name="billingPrefecture"
-                  placeholder="都道府県"
+                  options={prefectures}
                   value={orderCustomer.billingPrefecture}
                   errorMessage={customerFormErrors.billingPrefecture}
-                  onChange={handleInputChange}
+                  onChange={handleSelectChange}
                 />
                 <InputField
                   label="市区町村"
