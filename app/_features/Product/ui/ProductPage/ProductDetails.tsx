@@ -100,7 +100,7 @@ const SizeOption = ({
   selectedSize,
   handleSizeChange,
 }: SizeOptionProps) => {
-  const sizeOrder = ['XS', 'S', 'M', 'L', 'XL'];
+  const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', '47T'];
 
   const options = sizeOrder
     .filter((size) => size in sizes)
