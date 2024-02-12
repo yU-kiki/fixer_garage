@@ -16,7 +16,7 @@ export const TotalAmount = ({ finalPrice }: TotalAmountProps) => {
         'md:text-[20px]',
       )}
     >
-      <p>商品合計</p>
+      <p>商品合計（税込）</p>
       <p>￥{finalPrice.toLocaleString()}</p>
     </div>
   );

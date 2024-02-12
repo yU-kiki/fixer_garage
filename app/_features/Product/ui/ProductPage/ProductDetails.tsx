@@ -60,13 +60,18 @@ const Price = ({ price, discountPrice }: PriceProps) => {
         <>
           <span className={clsx('line-through')}>
             ￥{price.toLocaleString()}
+            <span className={clsx('text-[16px]')}>（送料込み）</span>
           </span>
           <span className={clsx('ml-[8px]', 'font-[600]', 'text-red')}>
             ￥{discountPrice.toLocaleString()}
+            <span className={clsx('text-[16px]')}>（送料込み）</span>
           </span>
         </>
       ) : (
-        <>￥{price.toLocaleString()}</>
+        <p>
+          ￥{price.toLocaleString()}
+          <span className={clsx('text-[16px]')}>（送料込み）</span>
+        </p>
       )}
     </p>
   );

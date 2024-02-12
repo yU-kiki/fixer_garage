@@ -54,7 +54,10 @@ export const ToggleProductCard = ({
             ></div>
           </div>
         </div>
-        <p className={clsx('text-[18px]')}>￥{finalPrice.toLocaleString()}</p>
+        <p className={clsx('text-[18px]')}>
+          ￥{finalPrice.toLocaleString()}
+          <span className={clsx('text-[16px]')}>（税込）</span>
+        </p>
       </div>
       <div
         ref={contentRef}
