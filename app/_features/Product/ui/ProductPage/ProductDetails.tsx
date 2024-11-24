@@ -105,7 +105,23 @@ const SizeOption = ({
   selectedSize,
   handleSizeChange,
 }: SizeOptionProps) => {
-  const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', '47T'];
+  const sizeOrder = [
+    'XS',
+    'S',
+    'M',
+    'L',
+    'XL',
+    '47T',
+    '1.Pink(限定1台)',
+    '2.Pearl Green(限定1台)',
+    '3.Navy(限定1台)',
+    '4.Silver(限定1台)',
+    '5.Celeste(限定1台)',
+    '6.Yellow(限定1台)',
+    '7.Blue(限定1台)',
+    '8.Red(限定1台)',
+    '9.Mint(限定1台)',
+  ];
 
   const options = sizeOrder
     .filter((size) => size in sizes)
